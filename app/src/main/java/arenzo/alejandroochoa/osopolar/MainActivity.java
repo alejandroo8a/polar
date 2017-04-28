@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         centrarTituloActionBar();
         cargarElementosVista();
-        agregarIdEquipo();
+        saberSiExisteIdEquipo();
         btnNuevaVenta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,9 +83,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void agregarIdEquipo(){
-        Boolean saberSiExiste = sharedPreferences.getBoolean(EXISTEIDEQUIPO, false);
-        if (!saberSiExiste){
+    private void saberSiExisteIdEquipo(){
+        Boolean existe = sharedPreferences.getBoolean(EXISTEIDEQUIPO, false);
+        if (!existe){
             alertaAgregarIdEquipo();
         }
     }

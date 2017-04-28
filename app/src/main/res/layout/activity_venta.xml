@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     tools:ignore="MissingPrefix"
+    android:background="@color/icons"
     android:layout_height="match_parent"
     tools:context="arenzo.alejandroochoa.osopolar.venta">
 
@@ -18,7 +19,9 @@
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
 
     <TextView
         android:id="@+id/txtNombreCliente"
@@ -30,7 +33,9 @@
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
 
     <TextView
         android:id="@+id/txtProducto"
@@ -40,81 +45,71 @@
         android:layout_marginTop="42dp"
         app:layout_constraintTop_toBottomOf="@+id/txtNombreCliente"
         android:layout_marginLeft="16dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="16dp" />
 
     <Spinner
         android:id="@+id/spProductos"
-        android:layout_width="172dp"
-        android:layout_height="32dp"
+        style="@style/Base.Widget.AppCompat.Spinner"
+        android:layout_width="298dp"
+        android:layout_height="34dp"
+        android:layout_marginLeft="19dp"
+        android:layout_marginStart="19dp"
         android:layout_marginTop="26dp"
-        app:layout_constraintTop_toBottomOf="@+id/txtNombreCliente"
+        android:entries="@array/items"
+        android:spinnerMode="dropdown"
         app:layout_constraintLeft_toRightOf="@+id/txtProducto"
-        android:layout_marginLeft="23dp" />
+        app:layout_constraintTop_toBottomOf="@+id/txtNombreCliente"
+        tools:layout_editor_absoluteY="94dp" />
 
     <EditText
         android:id="@+id/edtPrecioUnitario"
-        android:layout_width="111dp"
-        android:layout_height="40dp"
+        android:layout_width="82dp"
+        android:layout_height="42dp"
         android:ems="10"
+        android:maxLength="7"
         android:inputType="numberDecimal"
-        android:layout_marginTop="17dp"
-        app:layout_constraintTop_toBottomOf="@+id/txtNombreCliente"
-        app:layout_constraintLeft_toRightOf="@+id/spProductos"
-        android:layout_marginLeft="8dp" />
+        android:layout_marginLeft="97dp"
+        android:layout_marginTop="6dp"
+        app:layout_constraintTop_toBottomOf="@+id/txtProducto"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="97dp" />
 
     <TextView
         android:id="@+id/txtCantidad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/cantidad"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="87dp"
         app:layout_constraintTop_toBottomOf="@+id/txtProducto"
         android:layout_marginLeft="16dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="16dp" />
 
     <EditText
         android:id="@+id/edtCantidad"
         android:layout_width="87dp"
         android:layout_height="45dp"
         android:ems="10"
+        android:maxLength="4"
         android:inputType="number"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="65dp"
         app:layout_constraintTop_toBottomOf="@+id/spProductos"
         app:layout_constraintLeft_toRightOf="@+id/txtCantidad"
-        android:layout_marginLeft="28dp" />
+        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/txtSubtotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/subtotal"
-        android:layout_marginTop="59dp"
+        android:layout_marginTop="27dp"
         app:layout_constraintTop_toBottomOf="@+id/txtCantidad"
         android:layout_marginLeft="16dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
-    <EditText
-        android:id="@+id/edtSubtotal"
-        android:layout_width="85dp"
-        android:layout_height="43dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:layout_marginTop="26dp"
-        app:layout_constraintTop_toBottomOf="@+id/edtCantidad"
-        app:layout_constraintLeft_toRightOf="@+id/textView5"
-        android:layout_marginLeft="32dp" />
-
-    <GridView
-        android:id="@+id/grdProductos"
-        android:layout_width="380dp"
-        android:layout_height="166dp"
-        android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="34dp"
-        app:layout_constraintTop_toBottomOf="@+id/edtSubtotal"
-        app:layout_constraintHorizontal_bias="0.466" />
+        android:layout_marginStart="16dp" />
+
 
     <TextView
         android:id="@+id/txtTotal"
@@ -124,28 +119,70 @@
         android:layout_marginRight="16dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="13dp"
-        app:layout_constraintTop_toBottomOf="@+id/grdProductos" />
+        app:layout_constraintTop_toBottomOf="@+id/grdProductos"
+        android:layout_marginEnd="16dp" />
 
     <Button
         android:id="@+id/btnFinalizarVenta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/finalizar"
-        android:layout_marginTop="70dp"
-        app:layout_constraintTop_toBottomOf="@+id/grdProductos"
         app:layout_constraintLeft_toRightOf="@+id/btnCancelarVenta"
         android:layout_marginLeft="32dp"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="0.0" />
+        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="57dp"
+        app:layout_constraintTop_toBottomOf="@+id/grdProductos" />
 
     <Button
         android:id="@+id/btnCancelarVenta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/cancelar"
-        android:layout_marginTop="70dp"
-        app:layout_constraintTop_toBottomOf="@+id/grdProductos"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="88dp" />
+        android:layout_marginLeft="88dp"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="57dp"
+        app:layout_constraintTop_toBottomOf="@+id/grdProductos" />
+
+    <ImageButton
+        android:id="@+id/btnAgregarProducto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_plus"
+        android:background="@color/icons"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="21dp"
+        app:layout_constraintBottom_toTopOf="@+id/grdProductos"
+        android:layout_marginRight="39dp"
+        android:layout_marginEnd="39dp" />
+
+    <GridView
+        android:id="@+id/grdProductos"
+        android:layout_width="380dp"
+        android:layout_height="166dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/borde"
+        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtSubtotal" />
+
+    <TextView
+        android:id="@+id/txtPrecio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Precio"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="31dp"
+        app:layout_constraintTop_toBottomOf="@+id/txtProducto"
+        android:layout_marginStart="16dp" />
 </android.support.constraint.ConstraintLayout>
