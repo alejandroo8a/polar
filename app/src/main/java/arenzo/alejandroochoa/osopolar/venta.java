@@ -35,7 +35,6 @@ import java.util.ArrayList;
 
 import arenzo.alejandroochoa.osopolar.ClasesBase.producto;
 import arenzo.alejandroochoa.osopolar.Adapters.adapter_producto;
-import arenzo.alejandroochoa.osopolar.Localizacion.localizar;
 
 public class venta extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
@@ -216,12 +215,7 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
                         finish();
                     }
                 })
-                .setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })
+                .setNegativeButton("NO", null)
                 .show();
     }
 
@@ -236,15 +230,15 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
     private void activarGps(){
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setTitle("Atención")
-                .setMessage("El GPS no esta activado, ¿Desea activarlo?")
+                .setMessage("Necesita activar el GPS para finalizar la venta")
                 .setCancelable(false)
-                .setPositiveButton("SI", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Activar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
                     }
                 })
-                .setNegativeButton("NO", null)
+                .setNegativeButton("Cancelar", null)
                 .show();
     }
 
@@ -286,5 +280,10 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
     protected void onStop() {
         super.onStop();
         mgoogleApiClient.disconnect();
+    }
+
+    @Override
+    public void onBackPressed() {
+        cancelarVenta();
     }
 }

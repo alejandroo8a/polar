@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -107,9 +109,9 @@ public class MainActivity extends AppCompatActivity {
                     if (conexion.isOnline()){
                         ;
                     }else
-                        avisoNoRed();
+                        avisoNoConexion();
                 }else
-                    avisoNoConexion();
+                    avisoNoRed();
 
             }
         });
@@ -165,12 +167,13 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("AVISO")
                 .setMessage("Encienda el Wi-Fi o los datos móviles.")
-                .setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Activar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
                     }
                 })
+                .setNegativeButton("Cancelar", null)
                 .show();
     }
 
@@ -178,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("AVISO")
                 .setMessage("No estas en la red correcta, intentalo nuevamente.")
-                .setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
@@ -189,9 +192,11 @@ public class MainActivity extends AppCompatActivity {
 
     //1 VERIFICAR EL PERMISO
     private void permisoLocalizacion(){
-        int permiso = checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION);
-        if(permiso != PackageManager.PERMISSION_GRANTED)
-            solicitarPermiso();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int permiso = checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION);
+            if (permiso != PackageManager.PERMISSION_GRANTED)
+                solicitarPermiso();
+        }
     }
 
     //2 SOLICITAR EL PERMISO
