@@ -1,5 +1,7 @@
 package arenzo.alejandroochoa.osopolar;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +19,7 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -47,7 +50,6 @@ public class venta extends AppCompatActivity {
         centrarTituloActionBar();
         cargarNombreCliente();
         eventosVista();
-        ocultarTeclado();
     }
 
     private void cargarElementosVista(){
@@ -133,6 +135,19 @@ public class venta extends AppCompatActivity {
 
             }
         });
+        btnCancelarVenta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancelarVenta();
+            }
+        });
+
+        btnFinalizarVenta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void cargarNombreCliente(){
@@ -140,15 +155,18 @@ public class venta extends AppCompatActivity {
     }
 
     private void agregarProducto(){
-        producto oProducto = new producto();
-        oProducto.setNombre(spProductos.getSelectedItem().toString());
-        oProducto.setCantidad(Integer.parseInt(edtCantidad.getText().toString()));
-        oProducto.setPrecio(obtenerSubtotal());
-        aProducto.add(oProducto);
-        adapter_producto = new adapter_producto(getApplicationContext(),aProducto);
-        grdProductos.setAdapter(adapter_producto);
-        agregarTotal();
-        limpiarVista();
+        if (edtCantidad.length() != 0 && edtPrecioUnitario.length() != 0) {
+            producto oProducto = new producto();
+            oProducto.setNombre(spProductos.getSelectedItem().toString());
+            oProducto.setCantidad(Integer.parseInt(edtCantidad.getText().toString()));
+            oProducto.setPrecio(obtenerSubtotal());
+            aProducto.add(oProducto);
+            adapter_producto = new adapter_producto(getApplicationContext(), aProducto);
+            grdProductos.setAdapter(adapter_producto);
+            agregarTotal();
+            limpiarVista();
+        }else
+            Toast.makeText(this, "Agrega precio y cantidad al producto.", Toast.LENGTH_SHORT).show();
     }
 
     private double obtenerSubtotal(){
@@ -167,7 +185,24 @@ public class venta extends AppCompatActivity {
         edtPrecioUnitario.setText("");
     }
 
-    private void ocultarTeclado(){
+    private void cancelarVenta(){
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("Atención")
+                .setMessage("¿Está seguro de cancelar la venta?")
+                .setPositiveButton("SI", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
+                    }
+                })
+                .show();
     }
+
+
 }

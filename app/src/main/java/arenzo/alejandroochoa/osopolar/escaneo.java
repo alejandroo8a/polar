@@ -111,4 +111,9 @@ public class escaneo extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
+    }
 }
