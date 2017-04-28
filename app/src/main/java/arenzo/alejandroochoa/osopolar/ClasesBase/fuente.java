@@ -1,4 +1,4 @@
-package arenzo.alejandroochoa.osopolar;
+package arenzo.alejandroochoa.osopolar.ClasesBase;
 
 import android.content.Context;
 import android.graphics.Typeface;
