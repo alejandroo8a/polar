@@ -16,9 +16,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import arenzo.alejandroochoa.osopolar.ClasesBase.conexion;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
 
     private Button btnNuevaVenta;
+    private ImageButton btnSincronizar;
+    private TextView txtVentaTotal,txtMontoVentas;
+    private ListView lvVentas;
     // PARA AGREGAR LA FUENTE POR CODIGO tv.setTypeface(Fuentes.myFont(this));
 
     @Override
@@ -38,22 +46,16 @@ public class MainActivity extends AppCompatActivity {
         centrarTituloActionBar();
         cargarElementosVista();
         saberSiExisteIdEquipo();
-        btnNuevaVenta.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mostrarEscaneo();
-            }
-        });
+        eventosVista();
     }
 
     private void cargarElementosVista(){
         btnNuevaVenta = (Button)findViewById(R.id.btnNuevaVenta);
+        btnSincronizar = (ImageButton)findViewById(R.id.btnSincronizar);
+        txtVentaTotal = (TextView)findViewById(R.id.txtVentaTotal);
+        txtMontoVentas = (TextView)findViewById(R.id.txtMontoVentas);
+        lvVentas = (ListView)findViewById(R.id.lvVentas);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-    }
-
-    private void mostrarEscaneo(){
-        Intent intent = new Intent(this, escaneo.class);
-        startActivity(intent);
     }
 
     private void centrarTituloActionBar() {
@@ -81,6 +83,35 @@ public class MainActivity extends AppCompatActivity {
                 appCompatTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             }
         }
+    }
+
+    private void eventosVista(){
+        btnNuevaVenta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mostrarEscaneo();
+            }
+        });
+
+        btnSincronizar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                conexion conexion = new conexion();
+                if (conexion.isAvaliable(getApplicationContext())){
+                    if (conexion.isOnline()){
+                        ;
+                    }else
+                        avisoNoRed();
+                }else
+                    avisoNoConexion();
+
+            }
+        });
+    }
+
+    private void mostrarEscaneo(){
+        Intent intent = new Intent(this, escaneo.class);
+        startActivity(intent);
     }
 
     private void saberSiExisteIdEquipo(){
@@ -122,6 +153,32 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void avisoNoRed(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("AVISO")
+                .setMessage("Encienda el Wi-Fi o los datos móviles.")
+                .setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .show();
+    }
+
+    private void avisoNoConexion(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("AVISO")
+                .setMessage("No estas en la red correcta, intentalo nuevamente.")
+                .setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .show();
     }
 
 }

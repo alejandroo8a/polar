@@ -1,4 +1,4 @@
-package arenzo.alejandroochoa.osopolar.adapters;
+package arenzo.alejandroochoa.osopolar.Adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

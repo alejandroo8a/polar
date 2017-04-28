@@ -29,7 +29,7 @@
         android:background="@drawable/ripple"
         android:textColor="@color/icons"
         android:layout_marginTop="27dp"
-        app:layout_constraintTop_toBottomOf="@+id/listView"
+        app:layout_constraintTop_toBottomOf="@+id/lvVentas"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="8dp"
@@ -39,7 +39,7 @@
         android:layout_marginEnd="8dp" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/btnSincronizar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_sincronizar"
@@ -49,19 +49,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp" />
-
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="0dp"
-        android:layout_height="107dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="23dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtTopVenta"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp" />
 
     <android.support.v7.widget.CardView
         android:id="@+id/cardView"
@@ -93,6 +80,20 @@
             android:layout_marginTop="40dp"
             android:text="Monto de venta: 2,300 pesos" />
     </android.support.v7.widget.CardView>
+
+    <ListView
+        android:id="@+id/lvVentas"
+        android:layout_width="0dp"
+        android:layout_height="107dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="25dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtTopVenta" />
 
 
 </android.support.constraint.ConstraintLayout>

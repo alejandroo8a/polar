@@ -2,17 +2,14 @@ package arenzo.alejandroochoa.osopolar;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -24,7 +21,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import arenzo.alejandroochoa.osopolar.ClasesBase.producto;
-import arenzo.alejandroochoa.osopolar.adapters.adapter_producto;
+import arenzo.alejandroochoa.osopolar.Adapters.adapter_producto;
 
 public class venta extends AppCompatActivity {
 
