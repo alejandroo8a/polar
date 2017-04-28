@@ -11,4 +11,5 @@
     <string name="producto">Producto:</string>
     <string name="la_tiendita_de_la_esquina">La tiendita de la esquina</string>
     <string name="venta">VENTA</string>
+    <string name="escribe_el_id_de_tu_equipo">Deben de ser 4 digitos</string>
 </resources>
