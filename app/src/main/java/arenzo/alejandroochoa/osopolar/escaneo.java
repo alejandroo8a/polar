@@ -1,15 +1,20 @@
 package arenzo.alejandroochoa.osopolar;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +31,7 @@ public class escaneo extends AppCompatActivity {
     private final String RESULTADO = "RESULTADO";
 
     private Button btnEscaner, btnNuevoCliente;
+    private ImageButton btnBuscarCliente;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +50,18 @@ public class escaneo extends AppCompatActivity {
                 mostrarVenta();
             }
         });
+        btnBuscarCliente.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                verBuscarCliente();
+            }
+        });
     }
 
     private void cargarElementosVista(){
         btnEscaner = (Button)findViewById(R.id.btnEscaner);
         btnNuevoCliente = (Button)findViewById(R.id.btnNuevoCliente);
+        btnBuscarCliente = (ImageButton)findViewById(R.id.btnBuscarCliente);
         centrarTituloActionBar();
     }
 
@@ -109,6 +122,17 @@ public class escaneo extends AppCompatActivity {
         Intent intent = new Intent(this, venta.class);
         intent.putExtra(RESULTADO, "ALEJANDRO");
         startActivity(intent);
+    }
+
+    private void verBuscarCliente(){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        busqueda newFragment = new busqueda();
+
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        transaction.add(android.R.id.content, newFragment, "busqueda")
+                .commit();
+
     }
 
     @Override
