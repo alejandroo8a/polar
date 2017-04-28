@@ -34,5 +34,6 @@ dependencies {
     //Es para cambiar la tipografia desde el xml
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
     compile 'com.android.volley:volley:1.0.0'
+    compile 'com.google.android.gms:play-services-location:10.2.1'
     testCompile 'junit:junit:4.12'
 }

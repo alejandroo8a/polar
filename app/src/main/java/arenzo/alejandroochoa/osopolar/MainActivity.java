@@ -1,10 +1,15 @@
 package arenzo.alejandroochoa.osopolar;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatTextView;
@@ -45,8 +50,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         centrarTituloActionBar();
         cargarElementosVista();
-        saberSiExisteIdEquipo();
         eventosVista();
+        permisoLocalizacion();
+        saberSiExisteIdEquipo();
     }
 
     private void cargarElementosVista(){
@@ -179,6 +185,41 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
                 .show();
+    }
+
+    //1 VERIFICAR EL PERMISO
+    private void permisoLocalizacion(){
+        int permiso = checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION);
+        if(permiso != PackageManager.PERMISSION_GRANTED)
+            solicitarPermiso();
+    }
+
+    //2 SOLICITAR EL PERMISO
+    private void solicitarPermiso(){
+        if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_FINE_LOCATION)){
+            abrirConfiguracion();
+        }else{
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},0);
+        }
+    }
+
+    //3 PROCESAR LA RESPUESTA
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == 0)
+            if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                ;
+            }
+            else
+                abrirConfiguracion();
+
+    }
+
+    private void abrirConfiguracion(){
+        Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setData(Uri.parse("package:" + getPackageName()));
+        startActivity(intent);
     }
 
 }
