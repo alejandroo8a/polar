@@ -11,6 +11,7 @@ public class ventaDetalle {
     private Integer cantidad;
     private Double pUnitario;
     private Double subtotal;
+    private boolean sincronizado;
 
     public ventaDetalle() {
     }
@@ -53,5 +54,13 @@ public class ventaDetalle {
 
     public void setSubtotal(Double subtotal) {
         this.subtotal = subtotal;
+    }
+
+    public boolean isSincronizado() {
+        return sincronizado;
+    }
+
+    public void setSincronizado(boolean sincronizado) {
+        this.sincronizado = sincronizado;
     }
 }

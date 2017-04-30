@@ -4,12 +4,16 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,8 +21,11 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -31,15 +38,27 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
+import arenzo.alejandroochoa.osopolar.ClasesBase.oVenta;
 import arenzo.alejandroochoa.osopolar.ClasesBase.producto;
 import arenzo.alejandroochoa.osopolar.Adapters.adapter_producto;
+import arenzo.alejandroochoa.osopolar.ClasesBase.ventaDetalle;
+import arenzo.alejandroochoa.osopolar.SQlite.baseDatos;
 
 public class venta extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-
+//TODO OCULTAR TECLADO
     private final static String TAG = "venta";
     private final String RESULTADO = "RESULTADO";
+    private final String IDEQUIPO = "IDEQUIPO";
     private double total = 0.0;
     private GoogleApiClient mgoogleApiClient;
     private Location mLastLocation;
@@ -129,7 +148,7 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                txtSubtotal.setText("El subtotal es: "+obtenerSubtotal());
+                txtSubtotal.setText(String.valueOf(obtenerSubtotal()));
 
             }
 
@@ -147,7 +166,7 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                txtSubtotal.setText("El subtotal es: "+obtenerSubtotal());
+                txtSubtotal.setText(String.valueOf(obtenerSubtotal()));
             }
 
             @Override
@@ -155,17 +174,22 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
 
             }
         });
+
         btnCancelarVenta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cancelarVenta();
+                dialogCancelarVenta();
             }
         });
 
         btnFinalizarVenta.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                obtenerLocalizacion();
+                if (aProducto.size() > 0)
+                    finalizarVenta(true);
+                else
+                    Toast.makeText(venta.this, "Agregue productos a su venta.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -176,7 +200,24 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
 
     private void agregarProducto(){
         if (edtCantidad.length() != 0 && edtPrecioUnitario.length() != 0) {
+            if (aProducto.size() > 0) {
+                if (verificarProducto(1)) {
+                    int posicion = posicionProducto(1);
+                    int cantidad = aProducto.get(posicion).getCantidad() + Integer.parseInt(edtCantidad.getText().toString());
+                    double precio = aProducto.get(posicion).getPrecio() + Double.parseDouble(txtSubtotal.getText().toString());
+                    aProducto.get(posicion).setCantidad(cantidad);
+                    aProducto.get(posicion).setPrecio(precio);
+                    adapter_producto = new adapter_producto(getApplicationContext(), aProducto);
+                    grdProductos.setAdapter(adapter_producto);
+                    agregarTotal();
+                    limpiarVista();
+                    edtPrecioUnitario.requestFocus();
+                    edtCantidad.setImeOptions(EditorInfo.IME_ACTION_DONE);
+                    return;
+                }
+            }
             producto oProducto = new producto();
+            oProducto.setIdProducto(1);
             oProducto.setNombre(spProductos.getSelectedItem().toString());
             oProducto.setCantidad(Integer.parseInt(edtCantidad.getText().toString()));
             oProducto.setPrecio(obtenerSubtotal());
@@ -185,8 +226,30 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
             grdProductos.setAdapter(adapter_producto);
             agregarTotal();
             limpiarVista();
+            edtPrecioUnitario.requestFocus();
+            edtCantidad.setImeOptions(EditorInfo.IME_ACTION_DONE);
         }else
             Toast.makeText(this, "Agrega precio y cantidad al producto.", Toast.LENGTH_SHORT).show();
+    }
+
+    private boolean verificarProducto(int id){
+        for (producto pro : aProducto){
+            if (pro.getIdProducto() == id){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private int posicionProducto(int id){
+        int posicion = 0;
+        for (producto pro : aProducto){
+            if (pro.getIdProducto() == id){
+                break;
+            }
+            posicion++;
+        }
+        return posicion;
     }
 
     private double obtenerSubtotal(){
@@ -197,7 +260,7 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
 
     private void agregarTotal(){
         total += obtenerSubtotal();
-        txtTotal.setText("Total venta: "+total);
+        txtTotal.setText(String.valueOf(total));
     }
 
     private void limpiarVista(){
@@ -205,29 +268,75 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
         edtPrecioUnitario.setText("");
     }
 
-    private void cancelarVenta(){
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setTitle("Atención")
-                .setMessage("¿Está seguro de cancelar la venta?")
-                .setPositiveButton("SI", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+    private void ocultarTeclado(View v){
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void finalizarVenta(boolean tipoGuardado){
+        //TIPO GUARDADO AVISA A USUARIO D ELA VENTA SINO SOLO LO CIERRA
+        if (obtenerLocalizacion()){
+            baseDatos db = new baseDatos(getApplicationContext());
+            oVenta venta = crearVenta();
+            if (db.insertarVenta(venta, getApplicationContext())){
+                if (aProducto.size() > 0) {
+                    int idVenta = db.obtenerUltimoIdVenta();
+                    ArrayList<ventaDetalle> aVentaDetalle = crearVentaDetalle(idVenta);
+                    if (db.insertarVentaDetalle(aVentaDetalle, getApplicationContext())) {
+                        if (tipoGuardado) {
+                            dialogFinalizarVenta();
+                            return;
+                        }
                         finish();
+                        db.verTablaVentas();
+                        db.verTablaVentasDetalle();
                     }
-                })
-                .setNegativeButton("NO", null)
-                .show();
+                }else{
+                    db.verTablaVentas();
+                    db.verTablaVentasDetalle();
+                    finish();
+                }
+            }
+        }
     }
 
-    private void obtenerLocalizacion(){
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
-            activarGps();
-        else
-            Toast.makeText(this, "Tu lat y lon es: "+mLastLocation.getLatitude() +"-"+mLastLocation.getLongitude(), Toast.LENGTH_SHORT).show();
-
+    private oVenta crearVenta(){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        oVenta venta = new oVenta();
+        venta.setVendedor(String.valueOf(sharedPreferences.getInt(IDEQUIPO,1)));
+        venta.setTotal(Double.parseDouble(txtTotal.getText().toString()));
+        venta.setLatitud(String.valueOf(mLastLocation.getLatitude()));
+        venta.setLongitud(String.valueOf(mLastLocation.getLongitude()));
+        venta.setCancelada(false);
+        venta.setSincronizado(false);
+        return venta;
     }
 
-    private void activarGps(){
+    private ArrayList<ventaDetalle> crearVentaDetalle(int idVenta){
+        ArrayList<ventaDetalle> aVentaDetalle = new ArrayList<>();
+        for (producto produc : aProducto ){
+            ventaDetalle ventaDetalle = new ventaDetalle();
+            ventaDetalle.setIdVenta(idVenta);
+            ventaDetalle.setIdProducto(produc.getIdProducto());
+            ventaDetalle.setCantidad(produc.getCantidad());
+            ventaDetalle.setpUnitario(produc.getPrecio());
+            ventaDetalle.setSubtotal(produc.getCantidad() * produc.getPrecio());
+            ventaDetalle.setSincronizado(false);
+            aVentaDetalle.add(ventaDetalle);
+        }
+        return aVentaDetalle;
+    }
+
+    private boolean obtenerLocalizacion(){
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            dialogActivarGps();
+            return false;
+        }
+        return true;
+    }
+
+    private void dialogActivarGps(){
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setTitle("Atención")
                 .setMessage("Necesita activar el GPS para finalizar la venta")
@@ -235,17 +344,46 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
                 .setPositiveButton("Activar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+
                     }
                 })
-                .setNegativeButton("Cancelar", null)
+                .setNegativeButton("Cancelar",null)
+                .show();
+    }
+
+    private void dialogCancelarVenta(){
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("Atención")
+                .setMessage("¿Está seguro de cancelar la venta?")
+                .setPositiveButton("SI", new DialogInterface.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finalizarVenta(false);
+                    }
+                })
+                .setNegativeButton("NO", null)
+                .show();
+    }
+
+    private void dialogFinalizarVenta(){
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("Éxito")
+                .setMessage("Tu venta fue guardada con éxito.")
+                .setCancelable(false)
+                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
                 .show();
     }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
+
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -284,6 +422,6 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
 
     @Override
     public void onBackPressed() {
-        cancelarVenta();
+        dialogCancelarVenta();
     }
 }

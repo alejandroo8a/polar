@@ -6,12 +6,21 @@ package arenzo.alejandroochoa.osopolar.ClasesBase;
 
 public class producto {
 
+    private Integer IdProducto;
     private String nombre;
     private Integer cantidad;
     private Double precio;
 
     public producto(){
 
+    }
+
+    public Integer getIdProducto() {
+        return IdProducto;
+    }
+
+    public void setIdProducto(Integer idProducto) {
+        IdProducto = idProducto;
     }
 
     public String getNombre() {

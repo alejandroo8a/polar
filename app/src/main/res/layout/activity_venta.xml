@@ -9,6 +9,26 @@
     tools:context="arenzo.alejandroochoa.osopolar.venta">
 
     <TextView
+        android:id="@+id/txtTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0.0"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/grdProductos"
+        app:layout_constraintLeft_toRightOf="@+id/txtTo"
+        android:layout_marginLeft="8dp" />
+
+    <TextView
+        android:id="@+id/txtSubtotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0.0"
+        app:layout_constraintLeft_toRightOf="@+id/txtSub"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/edtCantidad" />
+
+    <TextView
         android:id="@+id/txtVenta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -100,7 +120,7 @@
         android:layout_marginStart="24dp" />
 
     <TextView
-        android:id="@+id/txtSubtotal"
+        android:id="@+id/txtSub"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/subtotal"
@@ -112,15 +132,17 @@
 
 
     <TextView
-        android:id="@+id/txtTotal"
+        android:id="@+id/txtTo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/total_venta"
-        android:layout_marginRight="16dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="13dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="31dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnFinalizarVenta"
+        tools:layout_editor_absoluteX="282dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@+id/grdProductos"
-        android:layout_marginEnd="16dp" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/btnFinalizarVenta"

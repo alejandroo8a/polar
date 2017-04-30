@@ -134,10 +134,4 @@ public class escaneo extends AppCompatActivity {
                 .commit();
 
     }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        finish();
-    }
 }
