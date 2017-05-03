@@ -55,7 +55,7 @@ import arenzo.alejandroochoa.osopolar.ClasesBase.ventaDetalle;
 import arenzo.alejandroochoa.osopolar.SQlite.baseDatos;
 
 public class venta extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-//TODO OCULTAR TECLADO
+//TODO OCULTAR TECLADO - OBTENER EL PRODUCTO REAL - GUARDAR EL PRODUCTO REAL
     private final static String TAG = "venta";
     private final String RESULTADO = "RESULTADO";
     private final String IDEQUIPO = "IDEQUIPO";
@@ -278,7 +278,12 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
         //TIPO GUARDADO AVISA A USUARIO D ELA VENTA SINO SOLO LO CIERRA
         if (obtenerLocalizacion()){
             baseDatos db = new baseDatos(getApplicationContext());
-            oVenta venta = crearVenta();
+            oVenta venta = null;
+            if (tipoGuardado){
+                venta = crearVenta(false);
+            }else{
+                venta = crearVenta(true);
+            }
             if (db.insertarVenta(venta, getApplicationContext())){
                 if (aProducto.size() > 0) {
                     int idVenta = db.obtenerUltimoIdVenta();
@@ -301,14 +306,14 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
         }
     }
 
-    private oVenta crearVenta(){
+    private oVenta crearVenta(boolean cancelada){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         oVenta venta = new oVenta();
         venta.setVendedor(String.valueOf(sharedPreferences.getInt(IDEQUIPO,1)));
         venta.setTotal(Double.parseDouble(txtTotal.getText().toString()));
         venta.setLatitud(String.valueOf(mLastLocation.getLatitude()));
         venta.setLongitud(String.valueOf(mLastLocation.getLongitude()));
-        venta.setCancelada(false);
+        venta.setCancelada(cancelada);
         venta.setSincronizado(false);
         return venta;
     }
@@ -344,7 +349,7 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
                 .setPositiveButton("Activar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
                     }
                 })
                 .setNegativeButton("Cancelar",null)

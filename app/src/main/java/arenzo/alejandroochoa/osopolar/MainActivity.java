@@ -32,14 +32,16 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import arenzo.alejandroochoa.osopolar.ClasesBase.conexion;
+import arenzo.alejandroochoa.osopolar.SQlite.baseDatos;
 
 public class MainActivity extends AppCompatActivity {
-
+//TODO FALTA OBTENER EL TOP 10 DE VENTAS Y LA PARTE DE SINCRONIZAR
     private final static String TAG = "MainActivity";
     private final String EXISTEIDEQUIPO = "EXISTEIDEQUIPO";
     private final String IDEQUIPO = "IDEQUIPO";
 
     private SharedPreferences sharedPreferences;
+    private baseDatos bd;
 
     private Button btnNuevaVenta;
     private ImageButton btnSincronizar;
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView lvVentas;
     // PARA AGREGAR LA FUENTE POR CODIGO tv.setTypeface(Fuentes.myFont(this));
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +59,9 @@ public class MainActivity extends AppCompatActivity {
         eventosVista();
         permisoLocalizacion();
         saberSiExisteIdEquipo();
+        obtenerCantidadVentas();
     }
+
 
     private void cargarElementosVista(){
         btnNuevaVenta = (Button)findViewById(R.id.btnNuevaVenta);
@@ -65,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         txtMontoVentas = (TextView)findViewById(R.id.txtMontoVentas);
         lvVentas = (ListView)findViewById(R.id.lvVentas);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        bd = new baseDatos(getApplicationContext());
     }
 
     private void centrarTituloActionBar() {
@@ -116,6 +122,12 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void obtenerCantidadVentas(){
+        txtVentaTotal.setText("Total de ventas: "+bd.obtenerCantidadVentasHoy());
+        txtMontoVentas.setText("Monto de venta: "+bd.obtenerMontoVentasHoy()+" pesos");
     }
 
     private void mostrarEscaneo(){
@@ -229,4 +241,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    protected void onResume() {
+        super.onResume();
+        obtenerCantidadVentas();
+    }
 }

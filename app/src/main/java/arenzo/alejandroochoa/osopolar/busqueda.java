@@ -20,7 +20,7 @@ import android.widget.Toast;
  */
 
 public class busqueda extends DialogFragment {
-
+//TODO FALTA HACER LA BUSQUEDA CON LA LATIDUD Y LA LONGITUD
     private ListView lvClientesCercas;
     ActionBar actionBar;
 

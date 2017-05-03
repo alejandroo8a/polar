@@ -130,12 +130,34 @@ public class baseDatos extends SQLiteOpenHelper {
         return idVenta;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public int obtenerCantidadVentasHoy(){
+        SQLiteDatabase db = getWritableDatabase();
+        int cantidadVentas = 0;
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM "+VENTA+" WHERE Cancelada = 0", null);
+        if (cursor.moveToFirst()){
+            cantidadVentas = cursor.getInt(0);
+        }
+        return cantidadVentas;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public double obtenerMontoVentasHoy(){
+        SQLiteDatabase db = getWritableDatabase();
+        double montoVentas = 0;
+        Cursor cursor = db.rawQuery("SELECT SUM(Total) FROM "+VENTA+" WHERE Cancelada = 0", null);
+        if (cursor.moveToFirst()){
+            montoVentas = cursor.getInt(0);
+        }
+        return montoVentas;
+    }
+
     public void verTablaVentas(){
         SQLiteDatabase db = getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM "+VENTA,null);
         if (cursor.moveToFirst()) {
             do {
-                Log.d(TAG, "verTablaVentas: " + cursor.getString(4));
+                Log.d(TAG, "verTablaVentas: " + cursor.getString(6));
             } while (cursor.moveToNext());
         }
 
@@ -146,7 +168,7 @@ public class baseDatos extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT * FROM "+VENTADETALLE,null);
         if (cursor.moveToFirst()) {
             do {
-                Log.d(TAG, "verTablaVentas: " + cursor.getInt(0)+"-"+cursor.getInt(1));
+                Log.d(TAG, "verTablaVentasdetalle: " + cursor.getInt(0)+"-"+cursor.getInt(1));
             } while (cursor.moveToNext());
         }
 
