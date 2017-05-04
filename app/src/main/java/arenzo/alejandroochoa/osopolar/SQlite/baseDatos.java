@@ -16,6 +16,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Date;
 
+import arenzo.alejandroochoa.osopolar.ClasesBase.cliente;
 import arenzo.alejandroochoa.osopolar.ClasesBase.oVenta;
 import arenzo.alejandroochoa.osopolar.ClasesBase.ventaDetalle;
 
@@ -152,15 +153,35 @@ public class baseDatos extends SQLiteOpenHelper {
         return montoVentas;
     }
 
-    public void verTablaVentas(){
+    public ArrayList<cliente> obtenerClientesCercanos(){
+        SQLiteDatabase db = getWritableDatabase();
+        ArrayList<cliente> aClientes = new ArrayList<>();
+        Cursor cursor = db.rawQuery("SELECT * FROM "+CLIENTE, null);
+        if (cursor.moveToFirst()){
+            do{
+
+            }while (cursor.moveToNext());
+        }
+        return aClientes;
+    }
+
+    private double obtenerDistancia(){
+        double distancia = 0.0;
+        return distancia;
+    }
+
+    public oVenta verTablaVentas(){
         SQLiteDatabase db = getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM "+VENTA,null);
+        oVenta venta = new oVenta();
         if (cursor.moveToFirst()) {
-            do {
+            venta.setLatitud(cursor.getString(4));
+            venta.setLongitud(cursor.getString(5));
+            /*do {
                 Log.d(TAG, "verTablaVentas: " + cursor.getString(6));
-            } while (cursor.moveToNext());
+            } while (cursor.moveToNext());*/
         }
-
+        return venta;
     }
 
     public void verTablaVentasDetalle(){

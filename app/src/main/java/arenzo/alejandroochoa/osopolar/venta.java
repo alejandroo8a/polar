@@ -294,11 +294,11 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
                             return;
                         }
                         finish();
-                        db.verTablaVentas();
+                        //db.verTablaVentas();
                         db.verTablaVentasDetalle();
                     }
                 }else{
-                    db.verTablaVentas();
+                    //db.verTablaVentas();
                     db.verTablaVentasDetalle();
                     finish();
                 }
