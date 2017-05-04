@@ -69,13 +69,17 @@ public class busqueda extends DialogFragment implements GoogleApiClient.Connecti
         View view = inflater.inflate(R.layout.dialog_busqueda, container, false);
         lvClientesCercas = (ListView) view.findViewById(R.id.lvClientesCercas);
         seleccionarCliente();
+        configuracionClienteGoogle();
+        return view;
+    }
+
+    private void configuracionClienteGoogle(){
         mgoogleApiClient = new GoogleApiClient.Builder(getContext())
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .enableAutoManage(getActivity(), this)
                 .build();
-        return view;
     }
 
     private void seleccionarCliente(){
@@ -95,24 +99,14 @@ public class busqueda extends DialogFragment implements GoogleApiClient.Connecti
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         switch (id) {
             case android.R.id.home:
                 actionBar.setDisplayHomeAsUpEnabled(false);
                 this.dismiss();
                 break;
             case R.id.action_save:
-                // procesarGuardar()
-                baseDatos db = new baseDatos(getContext());
-                oVenta venta = db.verTablaVentas();
-                Location loc2 = new Location("local2");
-                Log.d("busqueda", "latidud "+venta.getLatitud() +"-"+venta.getLongitud());
-                loc2.setLatitude(19.244545);
-                loc2.setLongitude(-103.712594);
-                Toast.makeText(getContext(), "La distancia es: "+mLastLocation.distanceTo(loc2)+" metros", Toast.LENGTH_SHORT).show();
                 break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

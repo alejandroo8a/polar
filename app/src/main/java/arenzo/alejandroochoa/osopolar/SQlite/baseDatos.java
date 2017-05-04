@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.icu.text.DateFormat;
 import android.icu.text.SimpleDateFormat;
+import android.location.Location;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
@@ -42,7 +43,7 @@ public class baseDatos extends SQLiteOpenHelper {
     private final static String tablaListaPrecio = "CREATE TABLE ListaPrecio(IdListaPrecio INTEGER PRIMARY KEY, Descripcion TEXT)";
     private final static String tablaVenta = "CREATE TABLE Venta(IdVenta INTEGER PRIMARY KEY AUTOINCREMENT, Vendedor INTEGER, Fecha TEXT, Total REAL, Latitud TEXT, Longitud TEXT, Cancelada BOOLEAN, Sincronizado BOOLEAN)";
     private final static String tablaVentaDetalle = "CREATE TABLE VentaDetalle(IdVenta INTEGER, IdProducto INTEGER, Cantidad Integer, PUnitario REAL, Subtotal REAL, Sincronizado BOOLEAN)";
-    private final static String tablaCliente = "CREATE TABLE Cliente(IdCliente INTEGER, IdListaPrecio INTEGER, Nombre TEXT, Calle TEXT, Numero TEXT, Latitud TEXT, Longitud TEXT, Sincronizado BOOLEAN, PRIMARY KEY(IdCliente, IdListaPrecio))";
+    private final static String tablaCliente = "CREATE TABLE Cliente(IdCliente INTEGER, IdListaPrecio INTEGER, Nombre TEXT, Calle TEXT, Numero TEXT, Latitud TEXT, Longitud TEXT, PRIMARY KEY(IdCliente, IdListaPrecio))";
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -153,36 +154,36 @@ public class baseDatos extends SQLiteOpenHelper {
         return montoVentas;
     }
 
-    public ArrayList<cliente> obtenerClientesCercanos(){
+    public ArrayList<cliente> obtenerClientesCercanos(Location lastLocation){
         SQLiteDatabase db = getWritableDatabase();
         ArrayList<cliente> aClientes = new ArrayList<>();
         Cursor cursor = db.rawQuery("SELECT * FROM "+CLIENTE, null);
         if (cursor.moveToFirst()){
             do{
+                if (obtenerDistancia(cursor.getString(5), cursor.getString(6), lastLocation) < 3000){
+                    cliente cliente = new cliente();
+                    cliente.setIdCliente(cursor.getInt(0));
+                    cliente.setIdListaPrecios(cursor.getInt(1));
+                    cliente.setNombre(cursor.getString(2));
+                    cliente.setCalle(cursor.getString(3));
+                    cliente.setNumero(cursor.getString(4));
+                    cliente.setLatitud(cursor.getString(5));
+                    cliente.setLongitud(cursor.getString(6));
+                    aClientes.add(cliente);
+                }
 
             }while (cursor.moveToNext());
         }
         return aClientes;
     }
 
-    private double obtenerDistancia(){
-        double distancia = 0.0;
-        return distancia;
+    public double obtenerDistancia(String latitud, String longitud, Location lastLocation){
+        Location ubicacionCliente = new Location("uCliente");
+        ubicacionCliente.setLatitude(Double.parseDouble(latitud));
+        ubicacionCliente.setLongitude(Double.parseDouble(longitud));
+        return lastLocation.distanceTo(ubicacionCliente);
     }
-
-    public oVenta verTablaVentas(){
-        SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM "+VENTA,null);
-        oVenta venta = new oVenta();
-        if (cursor.moveToFirst()) {
-            venta.setLatitud(cursor.getString(4));
-            venta.setLongitud(cursor.getString(5));
-            /*do {
-                Log.d(TAG, "verTablaVentas: " + cursor.getString(6));
-            } while (cursor.moveToNext());*/
-        }
-        return venta;
-    }
+    
 
     public void verTablaVentasDetalle(){
         SQLiteDatabase db = getWritableDatabase();
