@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 
 public class escaneo extends AppCompatActivity {
-
+//TODO FALTA HACER LA BUSQUEDA DEL CLIENTE EN LA BD
     private final static String TAG = "escaneo";
     private final String RESULTADO = "RESULTADO";
 
@@ -133,11 +133,5 @@ public class escaneo extends AppCompatActivity {
         transaction.add(android.R.id.content, newFragment, "busqueda")
                 .commit();
 
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        finish();
     }
 }

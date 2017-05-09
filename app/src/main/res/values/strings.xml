@@ -6,7 +6,7 @@
     <string name="cancelar">Cancelar</string>
     <string name="finalizar">Finalizar</string>
     <string name="total_venta">Total venta</string>
-    <string name="subtotal">Subtotal</string>
+    <string name="subtotal">El subtotal es:</string>
     <string name="cantidad">Cantidad</string>
     <string name="producto">Producto:</string>
     <string name="la_tiendita_de_la_esquina">La tiendita de la esquina</string>
@@ -21,8 +21,7 @@
         <item>Item 5</item>
     </string-array>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="aceptar">Aceptar</string>
     <string name="buscar">Buscar</string>
 </resources>
