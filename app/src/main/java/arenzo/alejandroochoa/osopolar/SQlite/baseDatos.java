@@ -177,14 +177,6 @@ public class baseDatos extends SQLiteOpenHelper {
         return aClientes;
     }
 
-    public double obtenerDistancia(String latitud, String longitud, Location lastLocation){
-        Location ubicacionCliente = new Location("uCliente");
-        ubicacionCliente.setLatitude(Double.parseDouble(latitud));
-        ubicacionCliente.setLongitude(Double.parseDouble(longitud));
-        return lastLocation.distanceTo(ubicacionCliente);
-    }
-    
-
     public void verTablaVentasDetalle(){
         SQLiteDatabase db = getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM "+VENTADETALLE,null);
@@ -196,6 +188,15 @@ public class baseDatos extends SQLiteOpenHelper {
 
     }
 
+
+    //METODOS PROPIOS PARA LAS CONSULTAS
+
+    public double obtenerDistancia(String latitud, String longitud, Location lastLocation){
+        Location ubicacionCliente = new Location("uCliente");
+        ubicacionCliente.setLatitude(Double.parseDouble(latitud));
+        ubicacionCliente.setLongitude(Double.parseDouble(longitud));
+        return lastLocation.distanceTo(ubicacionCliente);
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private String obtenerFecha(){

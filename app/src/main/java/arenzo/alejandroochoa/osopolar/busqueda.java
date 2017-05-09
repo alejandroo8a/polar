@@ -35,7 +35,7 @@ import arenzo.alejandroochoa.osopolar.SQlite.baseDatos;
  */
 
 public class busqueda extends DialogFragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-//TODO FALTA HACER LA BUSQUEDA CON LA LATIDUD Y LA LONGITUD
+//TODO FALTA PONER LOS METODOS DE LA BUSQUEDA POR LOCALIZACION EN DONDE CORRESPONDEN - FALTA LLENAR LA LISTA CON LOS CLIENTES
     private ListView lvClientesCercas;
     ActionBar actionBar;
 

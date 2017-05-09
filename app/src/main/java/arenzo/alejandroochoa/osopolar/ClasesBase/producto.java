@@ -6,21 +6,21 @@ package arenzo.alejandroochoa.osopolar.ClasesBase;
 
 public class producto {
 
-    private Integer IdProducto;
+    private Integer idProducto;
     private String nombre;
-    private Integer cantidad;
-    private Double precio;
+    private Boolean activo;
+    private String unidadMedida;
 
     public producto(){
 
     }
 
     public Integer getIdProducto() {
-        return IdProducto;
+        return idProducto;
     }
 
     public void setIdProducto(Integer idProducto) {
-        IdProducto = idProducto;
+        this.idProducto = idProducto;
     }
 
     public String getNombre() {
@@ -31,19 +31,19 @@ public class producto {
         this.nombre = nombre;
     }
 
-    public Integer getCantidad() {
-        return cantidad;
+    public Boolean getActivo() {
+        return activo;
     }
 
-    public void setCantidad(Integer cantidad) {
-        this.cantidad = cantidad;
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
     }
 
-    public Double getPrecio() {
-        return precio;
+    public String getUnidadMedida() {
+        return unidadMedida;
     }
 
-    public void setPrecio(Double precio) {
-        this.precio = precio;
+    public void setUnidadMedida(String unidadMedida) {
+        this.unidadMedida = unidadMedida;
     }
 }
