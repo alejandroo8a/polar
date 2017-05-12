@@ -18,7 +18,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import arenzo.alejandroochoa.osopolar.ClasesBase.cliente;
+import arenzo.alejandroochoa.osopolar.ClasesBase.listaPrecio;
 import arenzo.alejandroochoa.osopolar.ClasesBase.oVenta;
+import arenzo.alejandroochoa.osopolar.ClasesBase.producto;
+import arenzo.alejandroochoa.osopolar.ClasesBase.productoLista;
 import arenzo.alejandroochoa.osopolar.ClasesBase.ventaDetalle;
 
 /**
@@ -114,7 +117,72 @@ public class baseDatos extends SQLiteOpenHelper {
         return estadoInsercion;
     }
 
+    public void insertarProductos(ArrayList<producto> aProductos, Context context){
+        SQLiteDatabase db = getWritableDatabase();
+        for(producto producto : aProductos){
+            ContentValues cvProducto = new ContentValues();
+            cvProducto.put("IdProducto", producto.getIdProducto());
+            cvProducto.put("Nombre", producto.getNombre());
+            cvProducto.put("UnidadMedida", producto.getUnidadMedida());
+            cvProducto.put("Activo", producto.getActivo());
+            try{
+                db.insertOrThrow(PRODUCTO, null, cvProducto);
+            }catch (SQLiteException ex){
+                Toast.makeText(context, "Error al insertar el producto: "+ex.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
+    public void insertarListaPrecio(ArrayList<listaPrecio> aListaPrecio, Context context){
+        SQLiteDatabase db = getWritableDatabase();
+        for (listaPrecio lista : aListaPrecio){
+            ContentValues cvLista = new ContentValues();
+            cvLista.put("IdListaPrecio", lista.getidListaPrecio());
+            cvLista.put("Descripcion", lista.getDescripcion());
+            try{
+                db.insertOrThrow(LISTAPRECIO, null, cvLista);
+            }catch (SQLiteException ex){
+                Toast.makeText(context, "Error al insertar el listaPrecio: "+ex.getMessage(), Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+    }
+
+    public void insertarProductoListas(ArrayList<productoLista> aProductoLista, Context context){
+        SQLiteDatabase db = getWritableDatabase();
+        for (productoLista producto : aProductoLista){
+            ContentValues cvProducto = new ContentValues();
+            cvProducto.put("IdProducto", producto.getIdProducto());
+            cvProducto.put("IdListaPrecio", producto.getIdListaPrecio());
+            cvProducto.put("Precio", producto.getPrecio());
+            try{
+                db.insertOrThrow(PRODUCTOLISTA, null, cvProducto);
+            }catch (SQLiteException ex){
+                Toast.makeText(context, "Error al insertar el productoLista: "+ex.getMessage(), Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+    }
+
+    public void insertarCliente(ArrayList<cliente> aClientes, Context context){
+        SQLiteDatabase db = getWritableDatabase();
+        for (cliente cliente : aClientes){
+            ContentValues cvCliente = new ContentValues();
+            cvCliente.put("IdCliente", cliente.getIdCliente());
+            cvCliente.put("IdListaPrecio", cliente.getIdListaPrecios());
+            cvCliente.put("Nombre", cliente.getNombre());
+            cvCliente.put("Calle", cliente.getCalle());
+            cvCliente.put("Numero", cliente.getNumero());
+            cvCliente.put("Latitud", cliente.getLatitud());
+            cvCliente.put("Longitud", cliente.getLongitud());
+            try{
+                db.insertOrThrow(CLIENTE, null, cvCliente);
+            }catch (SQLiteException ex){
+                Toast.makeText(context, "Error al insertar el cliente: "+ex.getMessage(), Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+    }
     //ACTUALIZAR*****************************
 
 

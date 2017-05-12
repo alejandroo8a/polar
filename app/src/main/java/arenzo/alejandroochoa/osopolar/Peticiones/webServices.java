@@ -60,6 +60,7 @@ public class webServices {
                         try {
                             JSONArray jaProductos = new JSONArray(response);
                             ArrayList<producto> aProductos = new parsearWebService().parsearProductos(jaProductos);
+                            bd.insertarProductos(aProductos, context);
                         } catch (JSONException e) {
                             Toast.makeText(context, "Error en la conversión: "+e, Toast.LENGTH_SHORT).show();
                         }
@@ -89,6 +90,7 @@ public class webServices {
                         try {
                             JSONArray jaListaPrecio = new JSONArray(response);
                             ArrayList<listaPrecio> aListaPrecio = new parsearWebService().parsearListaPrecio(jaListaPrecio);
+                            bd.insertarListaPrecio(aListaPrecio, context);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -119,6 +121,7 @@ public class webServices {
                         try {
                             JSONArray jaProductoLista = new JSONArray(response);
                             ArrayList<productoLista> aProductoLista = new parsearWebService().parsearProductoLista(jaProductoLista);
+                            bd.insertarProductoListas(aProductoLista, context);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -149,10 +152,10 @@ public class webServices {
                         try {
                             JSONArray jaClientes = new JSONArray(response);
                             ArrayList<cliente> aClientes = new parsearWebService().parsearClientes(jaClientes);
+                            bd.insertarCliente(aClientes, context);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
                 }, new Response.ErrorListener() {
             @Override
