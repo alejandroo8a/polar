@@ -6,18 +6,18 @@ package arenzo.alejandroochoa.osopolar.ClasesBase;
 
 public class listaPrecio {
 
-    private Integer listaPrecio;
+    private Integer idListaPrecio;
     private String descripcion;
 
     public listaPrecio() {
     }
 
-    public Integer getListaPrecio() {
-        return listaPrecio;
+    public Integer getidListaPrecio() {
+        return idListaPrecio;
     }
 
-    public void setListaPrecio(Integer listaPrecio) {
-        this.listaPrecio = listaPrecio;
+    public void setidListaPrecio(Integer idListaPrecio) {
+        this.idListaPrecio = idListaPrecio;
     }
 
     public String getDescripcion() {

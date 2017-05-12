@@ -18,8 +18,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import arenzo.alejandroochoa.osopolar.ClasesBase.cliente;
+import arenzo.alejandroochoa.osopolar.ClasesBase.listaPrecio;
 import arenzo.alejandroochoa.osopolar.ClasesBase.oVenta;
 import arenzo.alejandroochoa.osopolar.ClasesBase.producto;
+import arenzo.alejandroochoa.osopolar.ClasesBase.productoLista;
 import arenzo.alejandroochoa.osopolar.ClasesBase.ventaDetalle;
 import arenzo.alejandroochoa.osopolar.SQlite.baseDatos;
 
@@ -83,6 +86,12 @@ public class webServices {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        try {
+                            JSONArray jaListaPrecio = new JSONArray(response);
+                            ArrayList<listaPrecio> aListaPrecio = new parsearWebService().parsearListaPrecio(jaListaPrecio);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
                     }
                 }, new Response.ErrorListener() {
@@ -107,6 +116,12 @@ public class webServices {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        try {
+                            JSONArray jaProductoLista = new JSONArray(response);
+                            ArrayList<productoLista> aProductoLista = new parsearWebService().parsearProductoLista(jaProductoLista);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
                     }
                 }, new Response.ErrorListener() {
@@ -131,6 +146,12 @@ public class webServices {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        try {
+                            JSONArray jaClientes = new JSONArray(response);
+                            ArrayList<cliente> aClientes = new parsearWebService().parsearClientes(jaClientes);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
                     }
                 }, new Response.ErrorListener() {
@@ -152,7 +173,8 @@ public class webServices {
     public void enviarVentas(final ArrayList<oVenta> aVentas){
         JSONArray jaVentas = new parsearWebService().parsearVentas(aVentas);
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST,
-                URLENVIARVENTAS, jaVentas,
+                URLENVIARVENTAS,
+                jaVentas,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {

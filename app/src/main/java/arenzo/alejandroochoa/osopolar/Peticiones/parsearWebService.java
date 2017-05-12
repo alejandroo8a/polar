@@ -8,8 +8,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import arenzo.alejandroochoa.osopolar.ClasesBase.cliente;
+import arenzo.alejandroochoa.osopolar.ClasesBase.listaPrecio;
 import arenzo.alejandroochoa.osopolar.ClasesBase.oVenta;
 import arenzo.alejandroochoa.osopolar.ClasesBase.producto;
+import arenzo.alejandroochoa.osopolar.ClasesBase.productoLista;
 import arenzo.alejandroochoa.osopolar.ClasesBase.ventaDetalle;
 
 /**
@@ -74,5 +77,45 @@ public class parsearWebService {
         return aProducto;
     }
 
-    //TODO PARSEAR LAS 5 CLASES FALTANTES
+    public ArrayList<listaPrecio> parsearListaPrecio (JSONArray jaListaPrecio) throws JSONException{
+        ArrayList<listaPrecio> aListaPrecio = new ArrayList<>();
+        for (int i = 0; i<jaListaPrecio.length() ; i++){
+            listaPrecio lista = new listaPrecio();
+            JSONObject jListaPrecio = jaListaPrecio.getJSONObject(i);
+            lista.setidListaPrecio(jListaPrecio.getInt("IdListaPrecio"));
+            lista.setDescripcion(jListaPrecio.getString("Descripcion"));
+            aListaPrecio.add(lista);
+        }
+        return aListaPrecio;
+    }
+
+    public ArrayList<productoLista> parsearProductoLista (JSONArray jaProductoLista) throws JSONException{
+        ArrayList<productoLista> aProductoLista = new ArrayList<>();
+        for (int i = 0; i<jaProductoLista.length() ; i++){
+            productoLista lista = new productoLista();
+            JSONObject jListaProducto = jaProductoLista.getJSONObject(i);
+            lista.setIdProducto(jListaProducto.getInt("IdProducto"));
+            lista.setIdListaPrecio(jListaProducto.getInt("IdListaPrecio"));
+            lista.setPrecio(jListaProducto.getDouble("Precio"));
+            aProductoLista.add(lista);
+        }
+        return aProductoLista;
+    }
+
+    public ArrayList<cliente> parsearClientes (JSONArray jsClientes) throws JSONException{
+        ArrayList<cliente> aClientes = new ArrayList<>();
+        for(int i = 0 ; i<jsClientes.length() ; i++){
+            cliente cliente = new cliente();
+            JSONObject jCliente = jsClientes.getJSONObject(i);
+            cliente.setIdCliente(jCliente.getInt("IdCliente"));
+            cliente.setIdListaPrecios(jCliente.getInt("IdListaPrecios"));
+            cliente.setNombre(jCliente.getString("Nombre"));
+            cliente.setCalle(jCliente.getString("Calle"));
+            cliente.setNumero(jCliente.getString("Numero"));
+            cliente.setLatitud(jCliente.getString("Latitud"));
+            cliente.setLongitud(jCliente.getString("Longitud"));
+            aClientes.add(cliente);
+        }
+        return aClientes;
+    }
 }
