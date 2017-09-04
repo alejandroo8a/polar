@@ -44,7 +44,7 @@ public class baseDatos extends SQLiteOpenHelper {
     private final static String tablaProducto = "CREATE TABLE Producto(IdProducto INTEGER PRIMARY KEY, Nombre TEXT, UnidadMedida TEXT, Activo BOOLEAN)";
     private final static String tablaProductoLista = "CREATE TABLE ProductoLista(IdProducto INTEGER, IdListaPrecio INTEGER, Precio REAL, PRIMARY KEY(IdProducto, IdListaPrecio))";
     private final static String tablaListaPrecio = "CREATE TABLE ListaPrecio(IdListaPrecio INTEGER PRIMARY KEY, Descripcion TEXT)";
-    private final static String tablaVenta = "CREATE TABLE Venta(IdVenta INTEGER PRIMARY KEY AUTOINCREMENT, Vendedor INTEGER, Fecha TEXT, Total REAL, Latitud TEXT, Longitud TEXT, Cancelada BOOLEAN, Sincronizado BOOLEAN)";
+    private final static String tablaVenta = "CREATE TABLE Venta(IdVenta INTEGER PRIMARY KEY AUTOINCREMENT, IdCliente INTEGER, Vendedor INTEGER, Fecha TEXT, Total REAL, Latitud TEXT, Longitud TEXT, Cancelada BOOLEAN, Sincronizado BOOLEAN)";
     private final static String tablaVentaDetalle = "CREATE TABLE VentaDetalle(IdVenta INTEGER, IdProducto INTEGER, Cantidad Integer, PUnitario REAL, Subtotal REAL, Sincronizado BOOLEAN)";
     private final static String tablaCliente = "CREATE TABLE Cliente(IdCliente INTEGER, IdListaPrecio INTEGER, Nombre TEXT, Calle TEXT, Numero TEXT, Latitud TEXT, Longitud TEXT, PRIMARY KEY(IdCliente, IdListaPrecio))";
 
@@ -96,7 +96,7 @@ public class baseDatos extends SQLiteOpenHelper {
         return estadoInsercion;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+
     public boolean insertarVenta(oVenta venta, Context context){
         SQLiteDatabase db = getWritableDatabase();
         boolean estadoInsercion = false;
@@ -200,7 +200,7 @@ public class baseDatos extends SQLiteOpenHelper {
         return idVenta;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+
     public int obtenerCantidadVentasHoy(){
         SQLiteDatabase db = getWritableDatabase();
         int cantidadVentas = 0;
@@ -211,7 +211,7 @@ public class baseDatos extends SQLiteOpenHelper {
         return cantidadVentas;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+
     public double obtenerMontoVentasHoy(){
         SQLiteDatabase db = getWritableDatabase();
         double montoVentas = 0;
@@ -266,7 +266,7 @@ public class baseDatos extends SQLiteOpenHelper {
         return lastLocation.distanceTo(ubicacionCliente);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+
     private String obtenerFecha(){
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");

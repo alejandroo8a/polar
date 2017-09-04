@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView lvVentas;
     // PARA AGREGAR LA FUENTE POR CODIGO tv.setTypeface(Fuentes.myFont(this));
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,12 +124,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void obtenerCantidadVentas(){
-        txtVentaTotal.setText("Total de ventas: "+bd.obtenerCantidadVentasHoy());
-        txtMontoVentas.setText("Monto de venta: "+bd.obtenerMontoVentasHoy()+" pesos");
+        txtVentaTotal.setText(getString(R.string.totalVentas)+bd.obtenerCantidadVentasHoy());
+        txtMontoVentas.setText(getString(R.string.montoVenta)+bd.obtenerMontoVentasHoy()+getString(R.string.pesos));
     }
-
     private void mostrarEscaneo(){
         Intent intent = new Intent(this, escaneo.class);
         startActivity(intent);
@@ -162,12 +160,12 @@ public class MainActivity extends AppCompatActivity {
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final EditText edtID = (EditText)view.findViewById(R.id.edtIdEquipo);
+                final EditText edtID = view.findViewById(R.id.edtIdEquipo);
                 if (edtID.length() == 4){
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putBoolean(EXISTEIDEQUIPO, true);
                     editor.putInt(IDEQUIPO, Integer.parseInt(edtID.getText().toString()));
-                    editor.commit();
+                    editor.apply();
                     dialog.dismiss();
                 }else{
                     Toast.makeText(MainActivity.this, "Debes de añadir un ID de cuatro digitos", Toast.LENGTH_SHORT).show();
@@ -241,7 +239,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onResume() {
         super.onResume();

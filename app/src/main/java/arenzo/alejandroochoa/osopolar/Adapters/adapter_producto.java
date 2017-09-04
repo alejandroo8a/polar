@@ -43,8 +43,8 @@ public class adapter_producto extends ArrayAdapter<producto> {
         }
         // Setup.
         holder.txtProductoItem.setText(prenda.getNombre());
-        holder.txtCantidadItem.setText(String.valueOf(prenda.getCantidad()));
-        holder.txtSubtotalItem.setText(String.valueOf(prenda.getPrecio()));
+        //holder.txtCantidadItem.setText(String.valueOf(prenda.getCantidad()));
+        //holder.txtSubtotalItem.setText(String.valueOf(prenda.getPrecio()));
 
         return convertView;
         }

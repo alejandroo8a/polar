@@ -24,4 +24,7 @@
 
     <string name="aceptar">Aceptar</string>
     <string name="buscar">Buscar</string>
+    <string name="totalVentas">Total de ventas:</string>
+    <string name="montoVenta">Monto de venta:</string>
+    <string name="pesos">pesos</string>
 </resources>

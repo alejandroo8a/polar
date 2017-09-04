@@ -203,10 +203,10 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
             if (aProducto.size() > 0) {
                 if (verificarProducto(1)) {
                     int posicion = posicionProducto(1);
-                    int cantidad = aProducto.get(posicion).getCantidad() + Integer.parseInt(edtCantidad.getText().toString());
-                    double precio = aProducto.get(posicion).getPrecio() + Double.parseDouble(txtSubtotal.getText().toString());
-                    aProducto.get(posicion).setCantidad(cantidad);
-                    aProducto.get(posicion).setPrecio(precio);
+                    //int cantidad = aProducto.get(posicion).getCantidad() + Integer.parseInt(edtCantidad.getText().toString());
+                    //double precio = aProducto.get(posicion).getPrecio() + Double.parseDouble(txtSubtotal.getText().toString());
+                    //aProducto.get(posicion).setCantidad(cantidad);
+                    //aProducto.get(posicion).setPrecio(precio);
                     adapter_producto = new adapter_producto(getApplicationContext(), aProducto);
                     grdProductos.setAdapter(adapter_producto);
                     agregarTotal();
@@ -219,8 +219,8 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
             producto oProducto = new producto();
             oProducto.setIdProducto(1);
             oProducto.setNombre(spProductos.getSelectedItem().toString());
-            oProducto.setCantidad(Integer.parseInt(edtCantidad.getText().toString()));
-            oProducto.setPrecio(obtenerSubtotal());
+            //oProducto.setCantidad(Integer.parseInt(edtCantidad.getText().toString()));
+            //oProducto.setPrecio(obtenerSubtotal());
             aProducto.add(oProducto);
             adapter_producto = new adapter_producto(getApplicationContext(), aProducto);
             grdProductos.setAdapter(adapter_producto);
@@ -324,9 +324,9 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
             ventaDetalle ventaDetalle = new ventaDetalle();
             ventaDetalle.setIdVenta(idVenta);
             ventaDetalle.setIdProducto(produc.getIdProducto());
-            ventaDetalle.setCantidad(produc.getCantidad());
-            ventaDetalle.setpUnitario(produc.getPrecio());
-            ventaDetalle.setSubtotal(produc.getCantidad() * produc.getPrecio());
+            //ventaDetalle.setCantidad(produc.getCantidad());
+            //ventaDetalle.setpUnitario(produc.getPrecio());
+            //ventaDetalle.setSubtotal(produc.getCantidad() * produc.getPrecio());
             ventaDetalle.setSincronizado(false);
             aVentaDetalle.add(ventaDetalle);
         }
