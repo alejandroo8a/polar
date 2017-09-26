@@ -13,18 +13,27 @@
     <string name="venta">VENTA</string>
     <string name="escribe_el_id_de_tu_equipo">Deben de ser 4 digitos</string>
 
-    <string-array name="items">
-        <item>Item 1</item>
-        <item>Item 2</item>
-        <item>Item 3</item>
-        <item>Item 4</item>
-        <item>Item 5</item>
+    <string-array name="nombresClientes">
+        <item>Abarrotes colima</item>
+        <item>Javier Gonzalez</item>
+        <item>Raul Hernandez</item>
+        <item>Super Marissa</item>
+        <item>Abarrotes la estancia</item>
     </string-array>
 
+    <string-array name="productos">
+        <item> Bolsa de hielo 3Lg </item>
+        <item> Bolsa de hielo grande </item>
+        <item> Barra de hielo </item>
+        <item> Media barra </item>
+        <item>Abarrotes la estancia</item>
+    </string-array>
 
     <string name="aceptar">Aceptar</string>
     <string name="buscar">Buscar</string>
-    <string name="totalVentas">Total de ventas:</string>
-    <string name="montoVenta">Monto de venta:</string>
-    <string name="pesos">pesos</string>
+    <string name="totalVentas">Total de ventas: </string>
+    <string name="totalVentasSinVenta">Total de ventas: Sin ventas.</string>
+    <string name="montoVenta">Monto de venta: </string>
+    <string name="montoVentaSinMonto">Monto de venta: Sin monto.</string>
+    <string name="pesos"> pesos</string>
 </resources>

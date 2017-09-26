@@ -7,43 +7,45 @@
     android:background="@color/icons"
     tools:context="arenzo.alejandroochoa.osopolar.escaneo">
 
-    <Button
+    <ImageButton
         android:id="@+id/btnEscaner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/escanear_codigo"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="92dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="24dp"
+        android:background="@color/icons"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintHorizontal_bias="0.502" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_qr" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btnNuevoCliente"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nuevo Cliente"
-        android:layout_marginTop="60dp"
-        app:layout_constraintTop_toBottomOf="@+id/btnEscaner"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="60dp"
+        android:background="@color/icons"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintHorizontal_bias="0.502" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnEscaner"
+        app:srcCompat="@drawable/ic_nuevo" />
 
     <ImageButton
         android:id="@+id/btnBuscarCliente"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_menu_search"
-        android:layout_marginTop="46dp"
-        android:background="@color/icons"
-        app:layout_constraintTop_toBottomOf="@+id/btnNuevoCliente"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="60dp"
+        android:background="@color/icons"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnNuevoCliente"
+        app:srcCompat="@drawable/ic_busqueda"
+        app:layout_constraintHorizontal_bias="0.501" />
 
 </android.support.constraint.ConstraintLayout>

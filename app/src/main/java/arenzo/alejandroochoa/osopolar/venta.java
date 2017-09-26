@@ -183,7 +183,6 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
         });
 
         btnFinalizarVenta.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
                 if (aProducto.size() > 0)
@@ -211,6 +210,8 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
                     grdProductos.setAdapter(adapter_producto);
                     agregarTotal();
                     limpiarVista();
+                    //TODO ELIMINAR ESTA LINEA
+                    edtPrecioUnitario.setText("26");
                     edtPrecioUnitario.requestFocus();
                     edtCantidad.setImeOptions(EditorInfo.IME_ACTION_DONE);
                     return;
@@ -226,6 +227,8 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
             grdProductos.setAdapter(adapter_producto);
             agregarTotal();
             limpiarVista();
+            //TODO ELIMINAR ESTA LINEA2
+            edtPrecioUnitario.setText("25");
             edtPrecioUnitario.requestFocus();
             edtCantidad.setImeOptions(EditorInfo.IME_ACTION_DONE);
         }else
@@ -273,7 +276,7 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
         imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+
     private void finalizarVenta(boolean tipoGuardado){
         //TIPO GUARDADO AVISA A USUARIO D ELA VENTA SINO SOLO LO CIERRA
         if (obtenerLocalizacion()){
@@ -311,8 +314,13 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
         oVenta venta = new oVenta();
         venta.setVendedor(String.valueOf(sharedPreferences.getInt(IDEQUIPO,1)));
         venta.setTotal(Double.parseDouble(txtTotal.getText().toString()));
-        venta.setLatitud(String.valueOf(mLastLocation.getLatitude()));
-        venta.setLongitud(String.valueOf(mLastLocation.getLongitude()));
+        if (mLastLocation != null) {
+            venta.setLatitud(String.valueOf(mLastLocation.getLatitude()));
+            venta.setLongitud(String.valueOf(mLastLocation.getLongitude()));
+        }else{
+            venta.setLatitud("0");
+            venta.setLongitud("0");
+        }
         venta.setCancelada(cancelada);
         venta.setSincronizado(false);
         return venta;
@@ -361,7 +369,6 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
         dialog.setTitle("Atención")
                 .setMessage("¿Está seguro de cancelar la venta?")
                 .setPositiveButton("SI", new DialogInterface.OnClickListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         finalizarVenta(false);

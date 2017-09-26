@@ -30,8 +30,7 @@ public class escaneo extends AppCompatActivity {
     private final static String TAG = "escaneo";
     private final String RESULTADO = "RESULTADO";
 
-    private Button btnEscaner, btnNuevoCliente;
-    private ImageButton btnBuscarCliente;
+    private ImageButton btnBuscarCliente, btnEscaner, btnNuevoCliente;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +58,8 @@ public class escaneo extends AppCompatActivity {
     }
 
     private void cargarElementosVista(){
-        btnEscaner = (Button)findViewById(R.id.btnEscaner);
-        btnNuevoCliente = (Button)findViewById(R.id.btnNuevoCliente);
+        btnEscaner = (ImageButton)findViewById(R.id.btnEscaner);
+        btnNuevoCliente = (ImageButton)findViewById(R.id.btnNuevoCliente);
         btnBuscarCliente = (ImageButton)findViewById(R.id.btnBuscarCliente);
         centrarTituloActionBar();
     }

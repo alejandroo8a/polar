@@ -124,6 +124,13 @@ public class busqueda extends DialogFragment implements GoogleApiClient.Connecti
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mgoogleApiClient.stopAutoManage(getActivity());
+        mgoogleApiClient.disconnect();
+    }
+
+    @Override
     public void onConnected(@Nullable Bundle bundle) {
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
