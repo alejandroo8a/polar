@@ -6,9 +6,11 @@
     <string name="cancelar">Cancelar</string>
     <string name="finalizar">Finalizar</string>
     <string name="total_venta">Total venta</string>
+    <string name="total">Total</string>
+    <string name="subtotal_solo">Subtotal</string>
     <string name="subtotal">El subtotal es:</string>
     <string name="cantidad">Cantidad</string>
-    <string name="producto">Producto:</string>
+    <string name="producto">Producto</string>
     <string name="clientes">Clientes</string>
     <string name="la_tiendita_de_la_esquina">La tiendita de la esquina</string>
     <string name="venta">VENTA</string>
@@ -37,4 +39,6 @@
     <string name="montoVenta">Monto de venta </string>
     <string name="montoVentaSinMonto">Monto de venta: Sin monto.</string>
     <string name="pesos"> pesos</string>
+    <string name="precio"> Precio</string>
+    <string name="confirmar"> Confirmar</string>
 </resources>

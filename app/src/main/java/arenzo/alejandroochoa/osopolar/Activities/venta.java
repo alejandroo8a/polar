@@ -54,8 +54,8 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
     private Location mLastLocation;
     private LocationManager locationManager;
 
-    private TextView txtNombreCliente, txtSubtotal,txtTotal;
-    private EditText edtPrecioUnitario,edtCantidad;
+    private TextView txtNombreCliente, txtSubtotal,txtTotal, txtPrecioUnitario;
+    private EditText edtCantidad;
     private Button btnFinalizarVenta, btnCancelarVenta;
     private ImageButton btnAgregarProducto;
     private GridView grdProductos;
@@ -78,7 +78,7 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
         txtNombreCliente = (TextView)findViewById(R.id.txtNombreCliente);
         txtSubtotal = (TextView)findViewById(R.id.txtSubtotal);
         txtTotal = (TextView)findViewById(R.id.txtTotal);
-        edtPrecioUnitario = (EditText)findViewById(R.id.edtPrecioUnitario);
+        txtPrecioUnitario = (TextView) findViewById(R.id.txtPrecioUnitario);
         edtCantidad = (EditText)findViewById(R.id.edtCantidad);
         btnFinalizarVenta = (Button)findViewById(R.id.btnFinalizarVenta);
         btnCancelarVenta = (Button)findViewById(R.id.btnCancelarVenta);
@@ -147,7 +147,7 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
 
             }
         });
-
+/*
         edtPrecioUnitario.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -163,7 +163,7 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
             public void afterTextChanged(Editable s) {
 
             }
-        });
+        });*/
 
         btnCancelarVenta.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -188,7 +188,7 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
     }
 
     private void agregarProducto(){
-        if (edtCantidad.length() != 0 && edtPrecioUnitario.length() != 0) {
+        if (edtCantidad.length() != 0 && txtPrecioUnitario.length() != 0) {
             if (aProducto.size() > 0) {
                 if (verificarProducto(1)) {
                     int posicion = posicionProducto(1);
@@ -201,8 +201,8 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
                     agregarTotal();
                     limpiarVista();
                     //TODO ELIMINAR ESTA LINEA
-                    edtPrecioUnitario.setText("26");
-                    edtPrecioUnitario.requestFocus();
+                    txtPrecioUnitario.setText("26");
+                    txtPrecioUnitario.requestFocus();
                     edtCantidad.setImeOptions(EditorInfo.IME_ACTION_DONE);
                     return;
                 }
@@ -218,8 +218,8 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
             agregarTotal();
             limpiarVista();
             //TODO ELIMINAR ESTA LINEA2
-            edtPrecioUnitario.setText("25");
-            edtPrecioUnitario.requestFocus();
+            txtPrecioUnitario.setText("25");
+            txtPrecioUnitario.requestFocus();
             edtCantidad.setImeOptions(EditorInfo.IME_ACTION_DONE);
         }else
             Toast.makeText(this, "Agrega precio y cantidad al producto.", Toast.LENGTH_SHORT).show();
@@ -246,8 +246,8 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
     }
 
     private double obtenerSubtotal(){
-        if (edtCantidad.length() != 0 && edtPrecioUnitario.length() != 0)
-            return Double.parseDouble(edtPrecioUnitario.getText().toString()) * Double.parseDouble(edtCantidad.getText().toString());
+        if (edtCantidad.length() != 0 && txtPrecioUnitario.length() != 0)
+            return Double.parseDouble(txtPrecioUnitario.getText().toString()) * Double.parseDouble(edtCantidad.getText().toString());
         return 0.0;
     }
 
@@ -258,7 +258,7 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
 
     private void limpiarVista(){
         edtCantidad.setText("");
-        edtPrecioUnitario.setText("");
+        txtPrecioUnitario.setText("");
     }
 
     private void ocultarTeclado(View v){
