@@ -126,15 +126,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void obtenerCantidadVentas(){
-        DecimalFormat df = new DecimalFormat("#.00");
-        /*if (bd.obtenerCantidadVentasHoy() == 0)
-            txtVentaTotal.setText(getString(R.string.totalVentasSinVenta));
-        else
-            txtVentaTotal.setText(getString(R.string.totalVentas) + df.format(bd.obtenerCantidadVentasHoy()));
-        if(bd.obtenerMontoVentasHoy() == 0.0)
-            txtMontoVentas.setText(getString(R.string.montoVentaSinMonto));
-        else
-            txtMontoVentas.setText(getString(R.string.montoVenta) + df.format(bd.obtenerMontoVentasHoy()) + getString(R.string.pesos));*/
+        DecimalFormat df = new DecimalFormat("#0.00");
+        int totalVentas = bd.obtenerCantidadVentasHoy();
+        txtVentaTotal.setText(String.valueOf(totalVentas));
+        double montoVentas = bd.obtenerMontoVentasHoy();
+        txtMontoVentas.setText("$ " + df.format(montoVentas));
     }
     private void mostrarEscaneo(){
         Intent intent = new Intent(this, escaneo.class);

@@ -72,6 +72,7 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
         centrarTituloActionBar();
         cargarNombreCliente();
         eventosVista();
+        ocultarTeclado(edtCantidad);
     }
 
     private void cargarElementosVista(){
@@ -138,32 +139,16 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                txtSubtotal.setText(String.valueOf(obtenerSubtotal()));
+
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                txtSubtotal.setText("$ " + String.valueOf(obtenerSubtotal()));
             }
         });
-/*
-        edtPrecioUnitario.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                txtSubtotal.setText(String.valueOf(obtenerSubtotal()));
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });*/
 
         btnCancelarVenta.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,7 +186,7 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
                     agregarTotal();
                     limpiarVista();
                     //TODO ELIMINAR ESTA LINEA
-                    txtPrecioUnitario.setText("26");
+                    txtPrecioUnitario.setText("$ 26.00");
                     txtPrecioUnitario.requestFocus();
                     edtCantidad.setImeOptions(EditorInfo.IME_ACTION_DONE);
                     return;
@@ -218,7 +203,7 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
             agregarTotal();
             limpiarVista();
             //TODO ELIMINAR ESTA LINEA2
-            txtPrecioUnitario.setText("25");
+            txtPrecioUnitario.setText("$ 25.00");
             txtPrecioUnitario.requestFocus();
             edtCantidad.setImeOptions(EditorInfo.IME_ACTION_DONE);
         }else
@@ -246,14 +231,18 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
     }
 
     private double obtenerSubtotal(){
-        if (edtCantidad.length() != 0 && txtPrecioUnitario.length() != 0)
-            return Double.parseDouble(txtPrecioUnitario.getText().toString()) * Double.parseDouble(edtCantidad.getText().toString());
+        if (edtCantidad.length() != 0 && txtPrecioUnitario.length() != 0) {
+            String[] aPrecio = txtPrecioUnitario.getText().toString().split(" ");
+            double precioUnitario = Double.parseDouble(aPrecio[1]);
+            double cantidad = Double.parseDouble(edtCantidad.getText().toString());
+            return precioUnitario * cantidad;
+        }
         return 0.0;
     }
 
     private void agregarTotal(){
         total += obtenerSubtotal();
-        txtTotal.setText(String.valueOf(total));
+        txtTotal.setText("$ " + String.valueOf(total));
     }
 
     private void limpiarVista(){
@@ -303,7 +292,9 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         oVenta venta = new oVenta();
         venta.setVendedor(String.valueOf(sharedPreferences.getInt(IDEQUIPO,1)));
-        venta.setTotal(Double.parseDouble(txtTotal.getText().toString()));
+        String[] aTotal = txtTotal.getText().toString().split(" ");
+        double total = Double.parseDouble(aTotal[1]);
+        venta.setTotal(total);
         if (mLastLocation != null) {
             venta.setLatitud(String.valueOf(mLastLocation.getLatitude()));
             venta.setLongitud(String.valueOf(mLastLocation.getLongitude()));
