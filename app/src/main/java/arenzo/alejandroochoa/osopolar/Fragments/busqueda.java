@@ -1,4 +1,4 @@
-package arenzo.alejandroochoa.osopolar;
+package arenzo.alejandroochoa.osopolar.Fragments;
 
 import android.Manifest;
 import android.content.Intent;
@@ -28,6 +28,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
 import arenzo.alejandroochoa.osopolar.ClasesBase.oVenta;
+import arenzo.alejandroochoa.osopolar.R;
 import arenzo.alejandroochoa.osopolar.SQlite.baseDatos;
 
 /**

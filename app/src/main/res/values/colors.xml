@@ -4,6 +4,9 @@
     <color name="primary_dark">#00A50F</color>
     <color name="primary_light">#FFFFFF</color>
     <color name="accent">#1031D7</color>
+    <color name="verde">#006557</color>
+    <color name="fondoMain">#E4F2FD</color>
+    <color name="floatingButton">#0091EA</color>
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#757575</color>
     <color name="icons">#FFFFFF</color>

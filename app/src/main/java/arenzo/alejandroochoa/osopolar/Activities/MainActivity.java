@@ -1,4 +1,4 @@
-package arenzo.alejandroochoa.osopolar;
+package arenzo.alejandroochoa.osopolar.Activities;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -12,13 +12,12 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +32,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import arenzo.alejandroochoa.osopolar.ClasesBase.conexion;
+import arenzo.alejandroochoa.osopolar.R;
 import arenzo.alejandroochoa.osopolar.SQlite.baseDatos;
 
 public class MainActivity extends AppCompatActivity {
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private baseDatos bd;
 
     private Button btnNuevaVenta;
-    private ImageButton btnSincronizar;
+    private FloatingActionButton fbtnSincronizar;
     private TextView txtVentaTotal,txtMontoVentas;
     private ListView lvVentas;
     // PARA AGREGAR LA FUENTE POR CODIGO tv.setTypeface(Fuentes.myFont(this));
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void cargarElementosVista(){
         btnNuevaVenta = (Button)findViewById(R.id.btnNuevaVenta);
-        btnSincronizar = (ImageButton)findViewById(R.id.btnSincronizar);
+        fbtnSincronizar = (FloatingActionButton)findViewById(R.id.fbtnSincronizar);
         txtVentaTotal = (TextView)findViewById(R.id.txtVentaTotal);
         txtMontoVentas = (TextView)findViewById(R.id.txtMontoVentas);
         lvVentas = (ListView)findViewById(R.id.lvVentas);
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnSincronizar.setOnClickListener(new View.OnClickListener() {
+        fbtnSincronizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 conexion conexion = new conexion();

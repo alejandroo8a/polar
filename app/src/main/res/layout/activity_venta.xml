@@ -6,7 +6,7 @@
     tools:ignore="MissingPrefix"
     android:background="@color/icons"
     android:layout_height="match_parent"
-    tools:context="arenzo.alejandroochoa.osopolar.venta">
+    tools:context="arenzo.alejandroochoa.osopolar.Activities.venta">
 
     <TextView
         android:id="@+id/txtTotal"

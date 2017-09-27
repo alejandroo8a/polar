@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeActionBar">
         <activity
-            android:name=".MainActivity"
+            android:name=".Activities.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,9 +21,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".escaneo"
+            android:name=".Activities.escaneo"
             android:screenOrientation="portrait"/>
-        <activity android:name=".venta"></activity>
+        <activity android:name=".Activities.venta"></activity>
     </application>
 
 </manifest>

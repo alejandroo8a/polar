@@ -4,31 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/icons"
-    tools:context="arenzo.alejandroochoa.osopolar.escaneo">
+    android:background="@drawable/degradado_fondo"
+    tools:context="arenzo.alejandroochoa.osopolar.Activities.escaneo">
 
     <ImageButton
         android:id="@+id/btnEscaner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_width="0dp"
+        android:layout_height="145dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="24dp"
         android:background="@color/icons"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button2"
         app:srcCompat="@drawable/ic_qr" />
 
     <ImageButton
         android:id="@+id/btnNuevoCliente"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="60dp"
+        android:layout_width="0dp"
+        android:layout_height="145dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="24dp"
         android:background="@color/icons"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnEscaner"
@@ -36,16 +41,32 @@
 
     <ImageButton
         android:id="@+id/btnBuscarCliente"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="60dp"
+        android:layout_width="0dp"
+        android:layout_height="145dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="24dp"
         android:background="@color/icons"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnNuevoCliente"
-        app:srcCompat="@drawable/ic_busqueda"
-        app:layout_constraintHorizontal_bias="0.501" />
+        app:srcCompat="@drawable/ic_busqueda" />
+
+    <Button
+        android:id="@+id/button2"
+        style="@android:style/Widget.Material.Button.Borderless"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:background="@color/verde"
+        android:text="SELECCIONE EL MÉTODO DE VENTA"
+        android:textColor="@color/icons"
+        android:textSize="20sp"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
