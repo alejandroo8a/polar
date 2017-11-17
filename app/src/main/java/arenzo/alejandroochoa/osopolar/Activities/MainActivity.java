@@ -2,6 +2,8 @@ package arenzo.alejandroochoa.osopolar.Activities;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -32,6 +34,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import arenzo.alejandroochoa.osopolar.ClasesBase.conexion;
+import arenzo.alejandroochoa.osopolar.Peticiones.webServices;
 import arenzo.alejandroochoa.osopolar.R;
 import arenzo.alejandroochoa.osopolar.SQlite.baseDatos;
 
@@ -48,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fbtnSincronizar;
     private TextView txtVentaTotal,txtMontoVentas;
     private ListView lvVentas;
+    ProgressDialog anillo = null;
     // PARA AGREGAR LA FUENTE POR CODIGO tv.setTypeface(Fuentes.myFont(this));
 
 
@@ -114,10 +118,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 conexion conexion = new conexion();
                 if (conexion.isAvaliable(getApplicationContext())){
-                    if (conexion.isOnline()){
-                        ;
-                    }else
-                        avisoNoConexion();
+                    mostrarCargandoAnillo();
+                    bd.borrarTodosDatos();
+                    sincronizarTodosDatos();
                 }else
                     avisoNoRed();
 
@@ -171,11 +174,22 @@ public class MainActivity extends AppCompatActivity {
                     editor.putInt(IDEQUIPO, Integer.parseInt(edtID.getText().toString()));
                     editor.apply();
                     dialog.dismiss();
+                    sincronizarTodosDatos();
                 }else{
                     Toast.makeText(MainActivity.this, "Debes de añadir un ID de cuatro digitos", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    private void sincronizarTodosDatos(){
+        mostrarCargandoAnillo();
+        requestObtenerProductos("1");
+    }
+
+    private void requestObtenerProductos(String idEquipo){
+        final webServices webServices = new webServices(getApplicationContext());
+        webServices.obtenerProductos(idEquipo, anillo);
     }
 
     private void avisoNoRed(){
@@ -189,19 +203,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
                 .setNegativeButton("Cancelar", null)
-                .show();
-    }
-
-    private void avisoNoConexion(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("AVISO")
-                .setMessage("No estas en la red correcta, intentalo nuevamente.")
-                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })
                 .show();
     }
 
@@ -247,5 +248,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         obtenerCantidadVentas();
+    }
+
+    private void mostrarCargandoAnillo(){
+        this.anillo = ProgressDialog.show(getApplicationContext(), "Sincronizando", "Obteniendo todos los datos...", true, false);
     }
 }

@@ -186,6 +186,14 @@ public class baseDatos extends SQLiteOpenHelper {
 
     //BORRAR*****************************
 
+    public void borrarTodosDatos(){
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete(PRODUCTO, null, null);
+        db.delete(PRODUCTOLISTA, null, null);
+        db.delete(LISTAPRECIO, null, null);
+        db.delete(CLIENTE, null, null);
+    }
+
 
     //SELECCIONAR*****************************
 

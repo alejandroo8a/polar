@@ -1,5 +1,6 @@
 package arenzo.alejandroochoa.osopolar.Peticiones;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
@@ -37,12 +38,13 @@ public class webServices {
     private SingletonVolley requestQueue;
     private baseDatos bd;
 
+    private final String URLBASEDEVELOP = "http://xtremesoftware.com.mx/portafolio/oso/public/api/";
     private final String URLENVIARVENTAS = "";
     private final String URLENVIARVENTADETALLE = "";
-    private final String URLOBTENERPRODUCTO = "";
-    private final String URLOBTENERLISTAPRECIOS = "";
-    private final String URLPRODUCTOSLISTAS = "";
-    private final String URLOBTENERCLIENTES = "";
+    private final String URLOBTENERPRODUCTO = "ObtenerProductos";
+    private final String URLOBTENERLISTAPRECIOS = "ObtenerListaPrecios";
+    private final String URLPRODUCTOSLISTAS = "ObtenerProductosLista";
+    private final String URLOBTENERCLIENTES = "ObtenerClientes";
 
     public webServices(Context context) {
         this.context=context;
@@ -51,17 +53,19 @@ public class webServices {
         requestQueue= SingletonVolley.getInstance(context);
         requestQueue.getRequestQueue();
     }
-    //TODO CREAR INSERCIONES A LA BASE DE DATOS
-    public void obtenerProductos(final String idEquipo){
-        StringRequest request = new StringRequest(Request.Method.POST, URLOBTENERPRODUCTO,
+
+    public void obtenerProductos(final String idEquipo, final Dialog dialog){
+        StringRequest request = new StringRequest(Request.Method.GET, URLBASEDEVELOP + URLOBTENERPRODUCTO,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            JSONArray jaProductos = new JSONArray(response);
-                            ArrayList<producto> aProductos = new parsearWebService().parsearProductos(jaProductos);
+                            JSONObject joProductos = new JSONObject(response);
+                            ArrayList<producto> aProductos = new parsearWebService().parsearProductos(joProductos);
                             bd.insertarProductos(aProductos, context);
+                            obtenerListasPrecios(idEquipo, dialog);
                         } catch (JSONException e) {
+                            dialog.dismiss();
                             Toast.makeText(context, "Error en la conversión: "+e, Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -69,29 +73,32 @@ public class webServices {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(context, "Error en la peticion: "+error, Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
             }
-        }) {
+        }) /*{
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("idEquipo", idEquipo);
                 return params;
             }
-        };
+        }*/;
         requestQueue.addToRequestQueue(request);
     }
 
-    public void obtenerListasPrecios(final String idEquipo){
-        StringRequest request = new StringRequest(Request.Method.POST,
-                URLOBTENERLISTAPRECIOS,
+    public void obtenerListasPrecios(final String idEquipo, final Dialog dialog){
+        StringRequest request = new StringRequest(Request.Method.GET,
+                URLBASEDEVELOP + URLOBTENERLISTAPRECIOS,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            JSONArray jaListaPrecio = new JSONArray(response);
-                            ArrayList<listaPrecio> aListaPrecio = new parsearWebService().parsearListaPrecio(jaListaPrecio);
+                            JSONObject joListaPrecio = new JSONObject(response);
+                            ArrayList<listaPrecio> aListaPrecio = new parsearWebService().parsearListaPrecio(joListaPrecio);
                             bd.insertarListaPrecio(aListaPrecio, context);
+                            obtenerProductosListas(idEquipo, dialog);
                         } catch (JSONException e) {
+                            dialog.dismiss();
                             e.printStackTrace();
                         }
 
@@ -99,30 +106,33 @@ public class webServices {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                dialog.dismiss();
                 Toast.makeText(context, "Error en la peticion: "+error, Toast.LENGTH_SHORT).show();
             }
-        }){
+        })/*{
           @Override
             protected  Map<String, String> getParams(){
               Map<String, String> params = new HashMap<>();
               params.put("idEquipo", idEquipo);
               return params;
           }
-        };
+        }*/;
         requestQueue.addToRequestQueue(request);
     }
 
-    public void obtenerProductosListas(final String idEquipo){
+    public void obtenerProductosListas(final String idEquipo, final Dialog dialog){
         StringRequest request = new StringRequest(Request.Method.POST,
-                URLPRODUCTOSLISTAS,
+                URLBASEDEVELOP + URLPRODUCTOSLISTAS,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            JSONArray jaProductoLista = new JSONArray(response);
-                            ArrayList<productoLista> aProductoLista = new parsearWebService().parsearProductoLista(jaProductoLista);
+                            JSONObject joProductoLista = new JSONObject(response);
+                            ArrayList<productoLista> aProductoLista = new parsearWebService().parsearProductoLista(joProductoLista);
                             bd.insertarProductoListas(aProductoLista, context);
+                            obtenerClientes(idEquipo, dialog);
                         } catch (JSONException e) {
+                            dialog.dismiss();
                             e.printStackTrace();
                         }
 
@@ -130,46 +140,51 @@ public class webServices {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                dialog.dismiss();
                 Toast.makeText(context, "Error en la peticion: "+error, Toast.LENGTH_SHORT).show();
             }
-        }){
+        })/*{
             @Override
             protected  Map<String, String> getParams(){
                 Map<String, String> params = new HashMap<>();
                 params.put("idEquipo", idEquipo);
                 return params;
             }
-        };
+        }*/;
         requestQueue.addToRequestQueue(request);
     }
 
-    public void obtenerClientes(final String idEquipo){
+    public void obtenerClientes(final String idEquipo, final Dialog dialog){
         StringRequest request = new StringRequest(Request.Method.POST,
-                URLOBTENERCLIENTES,
+                URLBASEDEVELOP + URLOBTENERCLIENTES,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            JSONArray jaClientes = new JSONArray(response);
-                            ArrayList<cliente> aClientes = new parsearWebService().parsearClientes(jaClientes);
+                            JSONObject joClientes = new JSONObject(response);
+                            ArrayList<cliente> aClientes = new parsearWebService().parsearClientes(joClientes);
                             bd.insertarCliente(aClientes, context);
+                            dialog.dismiss();
+                            Toast.makeText(context, "Sincronización finalizada con éxito", Toast.LENGTH_SHORT).show();
                         } catch (JSONException e) {
+                            dialog.dismiss();
                             e.printStackTrace();
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                dialog.dismiss();
                 Toast.makeText(context, "Error en la peticion: "+error, Toast.LENGTH_SHORT).show();
             }
-        }){
+        })/*{
             @Override
             protected  Map<String, String> getParams(){
                 Map<String, String> params = new HashMap<>();
                 params.put("idEquipo", idEquipo);
                 return params;
             }
-        };
+        }*/;
         requestQueue.addToRequestQueue(request);
     }
 

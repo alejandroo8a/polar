@@ -19,11 +19,14 @@ import arenzo.alejandroochoa.osopolar.ClasesBase.ventaDetalle;
  * Created by AlejandroMissael on 08/05/2017.
  */
 
-public class parsearWebService {
+public final class parsearWebService {
+
+    public parsearWebService() {
+    }
 
     private final static String TAG = "parsearWebService";
 
-    public JSONArray parsearVentas(ArrayList<oVenta> aVentas){
+    public static JSONArray parsearVentas(ArrayList<oVenta> aVentas){
         JSONArray jaVentas=new JSONArray();
         for(oVenta venta : aVentas){
             JSONObject jVenta = new JSONObject();
@@ -44,7 +47,7 @@ public class parsearWebService {
         return jaVentas;
     }
 
-    public JSONArray parsearVentaDetalles(ArrayList<ventaDetalle> aVentaDetalles) {
+    public static JSONArray parsearVentaDetalles(ArrayList<ventaDetalle> aVentaDetalles) {
         JSONArray jaVentaDetalles=new JSONArray();
         for(ventaDetalle ventaDetalles : aVentaDetalles){
             JSONObject jVentaDetalles = new JSONObject();
@@ -63,22 +66,24 @@ public class parsearWebService {
         return jaVentaDetalles;
     }
 
-    public ArrayList<producto> parsearProductos(JSONArray jaProductos) throws JSONException {
+    public static ArrayList<producto> parsearProductos(JSONObject joProductos) throws JSONException {
         ArrayList<producto> aProducto = new ArrayList<>();
+        JSONArray jaProductos = joProductos.getJSONArray("response");
         for (int i = 0; i<jaProductos.length() ; i++){
             producto producto = new producto();
             JSONObject jProducto = jaProductos.getJSONObject(i);
             producto.setIdProducto(jProducto.getInt("IdProducto"));
             producto.setNombre(jProducto.getString("Nombre"));
             producto.setUnidadMedida(jProducto.getString("UnidadMedida"));
-            producto.setActivo(jProducto.getBoolean("Activo"));
+            producto.setActivo(jProducto.getString("Activo"));
             aProducto.add(producto);
         }
         return aProducto;
     }
 
-    public ArrayList<listaPrecio> parsearListaPrecio (JSONArray jaListaPrecio) throws JSONException{
+    public static ArrayList<listaPrecio> parsearListaPrecio (JSONObject joListaPrecio) throws JSONException{
         ArrayList<listaPrecio> aListaPrecio = new ArrayList<>();
+        JSONArray jaListaPrecio = joListaPrecio.getJSONArray("response");
         for (int i = 0; i<jaListaPrecio.length() ; i++){
             listaPrecio lista = new listaPrecio();
             JSONObject jListaPrecio = jaListaPrecio.getJSONObject(i);
@@ -89,8 +94,9 @@ public class parsearWebService {
         return aListaPrecio;
     }
 
-    public ArrayList<productoLista> parsearProductoLista (JSONArray jaProductoLista) throws JSONException{
+    public static ArrayList<productoLista> parsearProductoLista (JSONObject joProductoLista) throws JSONException{
         ArrayList<productoLista> aProductoLista = new ArrayList<>();
+        JSONArray jaProductoLista = joProductoLista.getJSONArray("response");
         for (int i = 0; i<jaProductoLista.length() ; i++){
             productoLista lista = new productoLista();
             JSONObject jListaProducto = jaProductoLista.getJSONObject(i);
@@ -102,11 +108,12 @@ public class parsearWebService {
         return aProductoLista;
     }
 
-    public ArrayList<cliente> parsearClientes (JSONArray jsClientes) throws JSONException{
+    public static ArrayList<cliente> parsearClientes (JSONObject joClientes) throws JSONException{
         ArrayList<cliente> aClientes = new ArrayList<>();
-        for(int i = 0 ; i<jsClientes.length() ; i++){
+        JSONArray jaClientes = joClientes.getJSONArray("response");
+        for(int i = 0 ; i<jaClientes.length() ; i++){
             cliente cliente = new cliente();
-            JSONObject jCliente = jsClientes.getJSONObject(i);
+            JSONObject jCliente = jaClientes.getJSONObject(i);
             cliente.setIdCliente(jCliente.getInt("IdCliente"));
             cliente.setIdListaPrecios(jCliente.getInt("IdListaPrecios"));
             cliente.setNombre(jCliente.getString("Nombre"));
