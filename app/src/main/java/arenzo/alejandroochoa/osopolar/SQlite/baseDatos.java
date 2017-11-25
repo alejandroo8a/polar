@@ -228,6 +228,26 @@ public class baseDatos extends SQLiteOpenHelper {
         return montoVentas;
     }
 
+    public cliente obtenerCliente(int idCliente){
+        SQLiteDatabase db = getWritableDatabase();
+        cliente cliente = new cliente();
+        Cursor cursor = db.rawQuery("SELECT * FROM "+CLIENTE+" WHERE IdCliente = "+ idCliente, null);
+        if (cursor != null)
+        {
+            if (cursor.moveToFirst())
+            {
+                cliente.setIdCliente(cursor.getInt(0));
+                cliente.setIdListaPrecios(cursor.getInt(1));
+                cliente.setNombre(cursor.getString(2));
+                cliente.setCalle(cursor.getString(3));
+                cliente.setNumero(cursor.getString(4));
+                cliente.setLatitud(cursor.getString(5));
+                cliente.setLongitud(cursor.getString(6));
+            }
+        }
+        return cliente;
+    }
+
     public ArrayList<cliente> obtenerClientesCercanos(Location lastLocation){
         SQLiteDatabase db = getWritableDatabase();
         ArrayList<cliente> aClientes = new ArrayList<>();

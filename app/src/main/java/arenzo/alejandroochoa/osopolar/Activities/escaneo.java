@@ -3,6 +3,7 @@ package arenzo.alejandroochoa.osopolar.Activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -18,8 +19,10 @@ import com.google.zxing.integration.android.IntentResult;
 
 import java.util.ArrayList;
 
+import arenzo.alejandroochoa.osopolar.ClasesBase.cliente;
 import arenzo.alejandroochoa.osopolar.R;
 import arenzo.alejandroochoa.osopolar.Fragments.busqueda;
+import arenzo.alejandroochoa.osopolar.SQlite.baseDatos;
 
 
 public class escaneo extends AppCompatActivity {
@@ -105,7 +108,9 @@ public class escaneo extends AppCompatActivity {
         if(result != null) {
             if(result.getContents() != null) {
                 Intent intent = new Intent(this, venta.class);
-                intent.putExtra(RESULTADO, result.getContents());
+                baseDatos bd = new baseDatos(getApplicationContext());
+                cliente cliente = bd.obtenerCliente(Integer.parseInt(result.getContents()));
+                intent.putExtra(RESULTADO, (Parcelable) cliente);
                 startActivity(intent);
             }
         } else {
@@ -116,7 +121,7 @@ public class escaneo extends AppCompatActivity {
 
     private void mostrarVenta(){
         Intent intent = new Intent(this, venta.class);
-        intent.putExtra(RESULTADO, "ALEJANDRO");
+        intent.putExtra(RESULTADO, "CLIENTE NUEVO");
         startActivity(intent);
     }
 
