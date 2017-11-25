@@ -7,12 +7,12 @@ package arenzo.alejandroochoa.osopolar.ClasesBase;
 public class cliente {
 
     private Integer idCliente;
-    private Integer idListaPrecios;
     private String nombre;
     private String calle;
     private String numero;
     private String latitud;
     private String longitud;
+    private Integer idListaPrecios;
 
     public cliente() {
     }

@@ -42,7 +42,7 @@ public class webServices {
     private final String URLENVIARVENTAS = "";
     private final String URLENVIARVENTADETALLE = "";
     private final String URLOBTENERPRODUCTO = "ObtenerProductos";
-    private final String URLOBTENERLISTAPRECIOS = "ObtenerListaPrecios";
+    private final String URLOBTENERLISTAPRECIOS = "ObtenerListasPrecios";
     private final String URLPRODUCTOSLISTAS = "ObtenerProductosLista";
     private final String URLOBTENERCLIENTES = "ObtenerClientes";
 
@@ -121,7 +121,7 @@ public class webServices {
     }
 
     public void obtenerProductosListas(final String idEquipo, final Dialog dialog){
-        StringRequest request = new StringRequest(Request.Method.POST,
+        StringRequest request = new StringRequest(Request.Method.GET,
                 URLBASEDEVELOP + URLPRODUCTOSLISTAS,
                 new Response.Listener<String>() {
                     @Override
@@ -155,7 +155,7 @@ public class webServices {
     }
 
     public void obtenerClientes(final String idEquipo, final Dialog dialog){
-        StringRequest request = new StringRequest(Request.Method.POST,
+        StringRequest request = new StringRequest(Request.Method.GET,
                 URLBASEDEVELOP + URLOBTENERCLIENTES,
                 new Response.Listener<String>() {
                     @Override

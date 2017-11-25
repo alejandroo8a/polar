@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -21,12 +22,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
+import java.util.ArrayList;
+
+import arenzo.alejandroochoa.osopolar.Activities.venta;
+import arenzo.alejandroochoa.osopolar.Adapters.adapter_clientes;
+import arenzo.alejandroochoa.osopolar.ClasesBase.cliente;
 import arenzo.alejandroochoa.osopolar.ClasesBase.oVenta;
 import arenzo.alejandroochoa.osopolar.R;
 import arenzo.alejandroochoa.osopolar.SQlite.baseDatos;
@@ -36,13 +43,19 @@ import arenzo.alejandroochoa.osopolar.SQlite.baseDatos;
  */
 
 public class busqueda extends DialogFragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-//
-// TODO FALTA PONER LOS METODOS DE LA BUSQUEDA POR LOCALIZACION EN DONDE CORRESPONDEN - FALTA LLENAR LA LISTA CON LOS CLIENTES
+
+    private final static String TAG = "busqueda";
+    private final String CLIENTE = "CLIENTE";
+
     private ListView lvClientesCercas;
+    private TextView txtSinClientes;
     ActionBar actionBar;
 
     private GoogleApiClient mgoogleApiClient;
     private Location mLastLocation;
+    private baseDatos bd;
+    private adapter_clientes adapter;
+    private ArrayList<cliente> aClientes;
 
     public busqueda() {
         // Required empty public constructor
@@ -70,8 +83,10 @@ public class busqueda extends DialogFragment implements GoogleApiClient.Connecti
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_busqueda, container, false);
         lvClientesCercas = (ListView) view.findViewById(R.id.lvClientesCercas);
+        txtSinClientes = (TextView) view.findViewById(R.id.txtSinClientes);
         seleccionarCliente();
         configuracionClienteGoogle();
+        bd = new baseDatos(getContext());
         return view;
     }
 
@@ -88,6 +103,7 @@ public class busqueda extends DialogFragment implements GoogleApiClient.Connecti
         lvClientesCercas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mostrarVenta(aClientes.get(position));
                 Toast.makeText(getContext(), "Se selecciono el elemento "+lvClientesCercas.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
             }
         });
@@ -146,6 +162,8 @@ public class busqueda extends DialogFragment implements GoogleApiClient.Connecti
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mgoogleApiClient);
         if (mLastLocation == null){
             Toast.makeText(getContext(), "Ubicación no encontrada", Toast.LENGTH_SHORT).show();
+        }else{
+            setearClientes();
         }
     }
 
@@ -157,5 +175,22 @@ public class busqueda extends DialogFragment implements GoogleApiClient.Connecti
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    private void setearClientes(){
+        aClientes = bd.obtenerClientesCercanos(mLastLocation);
+        if(aClientes.size() > 0) {
+            adapter = new adapter_clientes(getContext(), R.layout.item_cliente, aClientes);
+            lvClientesCercas.setAdapter(adapter);
+        }else{
+            txtSinClientes.setVisibility(View.VISIBLE);
+            lvClientesCercas.setVisibility(View.GONE);
+        }
+    }
+
+    private void mostrarVenta(final cliente cliente){
+        Intent intent = new Intent(getActivity(), venta.class);
+        intent.putExtra(CLIENTE, (Parcelable) cliente);
+        startActivity(intent);
     }
 }

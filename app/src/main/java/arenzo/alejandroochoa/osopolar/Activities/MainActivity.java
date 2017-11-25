@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtVentaTotal,txtMontoVentas;
     private ListView lvVentas;
     ProgressDialog anillo = null;
-    // PARA AGREGAR LA FUENTE POR CODIGO tv.setTypeface(Fuentes.myFont(this));
 
 
     @Override
@@ -118,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 conexion conexion = new conexion();
                 if (conexion.isAvaliable(getApplicationContext())){
-                    mostrarCargandoAnillo();
                     bd.borrarTodosDatos();
                     sincronizarTodosDatos();
                 }else
@@ -171,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
                 if (edtID.length() == 4){
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putBoolean(EXISTEIDEQUIPO, true);
-                    editor.putInt(IDEQUIPO, Integer.parseInt(edtID.getText().toString()));
+                    editor.putString(IDEQUIPO, edtID.getText().toString());
                     editor.apply();
                     dialog.dismiss();
                     sincronizarTodosDatos();
@@ -184,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void sincronizarTodosDatos(){
         mostrarCargandoAnillo();
-        requestObtenerProductos("1");
+        requestObtenerProductos(sharedPreferences.getString(IDEQUIPO, "1"));
     }
 
     private void requestObtenerProductos(String idEquipo){
@@ -251,6 +249,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void mostrarCargandoAnillo(){
-        this.anillo = ProgressDialog.show(getApplicationContext(), "Sincronizando", "Obteniendo todos los datos...", true, false);
+        this.anillo = ProgressDialog.show(this, "Sincronizando", "Obteniendo todos los datos...", false, false);
     }
 }

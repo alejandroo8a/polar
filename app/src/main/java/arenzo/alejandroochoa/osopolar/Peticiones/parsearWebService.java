@@ -115,12 +115,12 @@ public final class parsearWebService {
             cliente cliente = new cliente();
             JSONObject jCliente = jaClientes.getJSONObject(i);
             cliente.setIdCliente(jCliente.getInt("IdCliente"));
-            cliente.setIdListaPrecios(jCliente.getInt("IdListaPrecios"));
             cliente.setNombre(jCliente.getString("Nombre"));
             cliente.setCalle(jCliente.getString("Calle"));
             cliente.setNumero(jCliente.getString("Numero"));
-            cliente.setLatitud(jCliente.getString("Latitud"));
-            cliente.setLongitud(jCliente.getString("Longitud"));
+            cliente.setLatitud(jCliente.getString("Lat"));
+            cliente.setLongitud(jCliente.getString("Long"));
+            cliente.setIdListaPrecios(jCliente.getInt("IdListaPrecio"));
             aClientes.add(cliente);
         }
         return aClientes;
