@@ -1,10 +1,14 @@
 package arenzo.alejandroochoa.osopolar.ClasesBase;
 
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
 /**
  * Created by AlejandroMissael on 27/04/2017.
  */
 
-public class cliente {
+public class cliente implements Serializable {
 
     private Integer idCliente;
     private String nombre;
@@ -15,6 +19,11 @@ public class cliente {
     private Integer idListaPrecios;
 
     public cliente() {
+    }
+
+    public cliente(Integer idCliente, String nombre) {
+        this.idCliente = idCliente;
+        this.nombre = nombre;
     }
 
     public Integer getIdCliente() {

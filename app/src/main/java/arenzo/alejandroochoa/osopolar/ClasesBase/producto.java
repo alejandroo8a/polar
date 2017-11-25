@@ -10,6 +10,24 @@ public class producto {
     private String Nombre;
     private String Activo;
     private String UnidadMedida;
+    private Double precio;
+    private Integer cantidad;
+
+    public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public Double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(Double precio) {
+        this.precio = precio;
+    }
 
     public producto(){
 

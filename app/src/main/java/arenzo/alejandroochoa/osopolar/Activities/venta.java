@@ -23,6 +23,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -37,6 +39,7 @@ import com.google.android.gms.location.LocationServices;
 
 import java.util.ArrayList;
 
+import arenzo.alejandroochoa.osopolar.ClasesBase.cliente;
 import arenzo.alejandroochoa.osopolar.ClasesBase.oVenta;
 import arenzo.alejandroochoa.osopolar.ClasesBase.producto;
 import arenzo.alejandroochoa.osopolar.Adapters.adapter_producto;
@@ -45,10 +48,13 @@ import arenzo.alejandroochoa.osopolar.R;
 import arenzo.alejandroochoa.osopolar.SQlite.baseDatos;
 
 public class venta extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-//TODO OCULTAR TECLADO - OBTENER EL PRODUCTO REAL - GUARDAR EL PRODUCTO REAL
+
+    //GUARDAR EL PRODUCTO REAL
+
     private final static String TAG = "venta";
     private final String RESULTADO = "RESULTADO";
     private final String IDEQUIPO = "IDEQUIPO";
+
     private double total = 0.0;
     private GoogleApiClient mgoogleApiClient;
     private Location mLastLocation;
@@ -63,6 +69,11 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
 
     private adapter_producto adapter_producto;
     private ArrayList<producto> aProducto;
+    private ArrayList<producto> aProductoVender;
+    private ArrayList<ventaDetalle> aVentaDetalle;
+    private cliente cliente;
+    private baseDatos bd;
+    private int posicionProducto = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +82,7 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
         cargarElementosVista();
         centrarTituloActionBar();
         cargarNombreCliente();
+        cargarProductos();
         eventosVista();
         ocultarTeclado(edtCantidad);
     }
@@ -87,6 +99,9 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
         grdProductos = (GridView)findViewById(R.id.grdProductos);
         spProductos = (Spinner)findViewById(R.id.spProductos);
         aProducto = new ArrayList<>();
+        aProductoVender = new ArrayList<>();
+        aVentaDetalle = new ArrayList<>();
+        bd = new baseDatos(getApplicationContext());
         mgoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -127,7 +142,7 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
         btnAgregarProducto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                agregarProducto();
+                agregarProducto(aProductoVender.get(posicionProducto).getIdProducto());
             }
         });
 
@@ -166,44 +181,67 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
                     Toast.makeText(venta.this, "Agregue productos a su venta.", Toast.LENGTH_SHORT).show();
             }
         });
+        spProductos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                txtPrecioUnitario.setText("$ " + aProductoVender.get(position).getPrecio().toString());
+                posicionProducto = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     private void cargarNombreCliente(){
-        txtNombreCliente.setText(getIntent().getStringExtra(RESULTADO));
+        cliente = (cliente) getIntent().getSerializableExtra(RESULTADO);
+        txtNombreCliente.setText(cliente.getNombre());
     }
 
-    private void agregarProducto(){
+    private void cargarProductos(){
+        if(cliente.getIdListaPrecios() != null)
+            aProductoVender = bd.obtenerProductos(cliente.getIdListaPrecios());
+        else
+            aProductoVender = bd.obtenerProductos(1);
+        ArrayList<String> aNombreProducto = new ArrayList<>();
+        for(producto producto : aProductoVender){
+            aNombreProducto.add(producto.getNombre());
+        }
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, aNombreProducto);
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spProductos.setAdapter(spinnerArrayAdapter);
+    }
+
+    private void agregarProducto(int idProducto){
         if (edtCantidad.length() != 0 && txtPrecioUnitario.length() != 0) {
             if (aProducto.size() > 0) {
-                if (verificarProducto(1)) {
-                    int posicion = posicionProducto(1);
-                    //int cantidad = aProducto.get(posicion).getCantidad() + Integer.parseInt(edtCantidad.getText().toString());
-                    //double precio = aProducto.get(posicion).getPrecio() + Double.parseDouble(txtSubtotal.getText().toString());
-                    //aProducto.get(posicion).setCantidad(cantidad);
-                    //aProducto.get(posicion).setPrecio(precio);
+                if (verificarProducto(idProducto)) {
+                    int posicion = posicionProducto(idProducto);
+                    int cantidad = aProducto.get(posicion).getCantidad() + Integer.parseInt(edtCantidad.getText().toString());
+                    double precio = aProducto.get(posicion).getPrecio() + Double.parseDouble(txtSubtotal.getText().toString().split(" ")[1]);
+                    aProducto.get(posicion).setCantidad(cantidad);
+                    aProducto.get(posicion).setPrecio(precio);
                     adapter_producto = new adapter_producto(getApplicationContext(), aProducto);
                     grdProductos.setAdapter(adapter_producto);
                     agregarTotal();
                     limpiarVista();
-                    //TODO ELIMINAR ESTA LINEA
-                    txtPrecioUnitario.setText("$ 26.00");
                     txtPrecioUnitario.requestFocus();
                     edtCantidad.setImeOptions(EditorInfo.IME_ACTION_DONE);
                     return;
                 }
             }
             producto oProducto = new producto();
-            oProducto.setIdProducto(1);
+            oProducto.setIdProducto(idProducto);
             oProducto.setNombre(spProductos.getSelectedItem().toString());
-            //oProducto.setCantidad(Integer.parseInt(edtCantidad.getText().toString()));
-            //oProducto.setPrecio(obtenerSubtotal());
+            oProducto.setCantidad(Integer.parseInt(edtCantidad.getText().toString()));
+            oProducto.setPrecio(obtenerSubtotal());
             aProducto.add(oProducto);
             adapter_producto = new adapter_producto(getApplicationContext(), aProducto);
             grdProductos.setAdapter(adapter_producto);
             agregarTotal();
             limpiarVista();
-            //TODO ELIMINAR ESTA LINEA2
-            txtPrecioUnitario.setText("$ 25.00");
             txtPrecioUnitario.requestFocus();
             edtCantidad.setImeOptions(EditorInfo.IME_ACTION_DONE);
         }else
@@ -247,7 +285,7 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
 
     private void limpiarVista(){
         edtCantidad.setText("");
-        txtPrecioUnitario.setText("");
+        txtPrecioUnitario.setText("$ " + aProductoVender.get(posicionProducto).getPrecio().toString());
     }
 
     private void ocultarTeclado(View v){
@@ -255,33 +293,31 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
         imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 
-
     private void finalizarVenta(boolean tipoGuardado){
         //TIPO GUARDADO AVISA A USUARIO D ELA VENTA SINO SOLO LO CIERRA
         if (obtenerLocalizacion()){
-            baseDatos db = new baseDatos(getApplicationContext());
             oVenta venta = null;
             if (tipoGuardado){
                 venta = crearVenta(false);
             }else{
                 venta = crearVenta(true);
             }
-            if (db.insertarVenta(venta, getApplicationContext())){
+            if (bd.insertarVenta(venta, getApplicationContext())){
                 if (aProducto.size() > 0) {
-                    int idVenta = db.obtenerUltimoIdVenta();
+                    int idVenta = bd.obtenerUltimoIdVenta();
                     ArrayList<ventaDetalle> aVentaDetalle = crearVentaDetalle(idVenta);
-                    if (db.insertarVentaDetalle(aVentaDetalle, getApplicationContext())) {
+                    if (bd.insertarVentaDetalle(aVentaDetalle, getApplicationContext())) {
                         if (tipoGuardado) {
                             dialogFinalizarVenta();
                             return;
                         }
                         finish();
                         //db.verTablaVentas();
-                        db.verTablaVentasDetalle();
+                        bd.verTablaVentasDetalle();
                     }
                 }else{
                     //db.verTablaVentas();
-                    db.verTablaVentasDetalle();
+                    bd.verTablaVentasDetalle();
                     finish();
                 }
             }
@@ -291,7 +327,8 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
     private oVenta crearVenta(boolean cancelada){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         oVenta venta = new oVenta();
-        venta.setVendedor(String.valueOf(sharedPreferences.getInt(IDEQUIPO,1)));
+        venta.setVendedor(sharedPreferences.getString(IDEQUIPO,"1"));
+        venta.setIdCliente(cliente.getIdCliente());
         String[] aTotal = txtTotal.getText().toString().split(" ");
         double total = Double.parseDouble(aTotal[1]);
         venta.setTotal(total);
@@ -313,9 +350,9 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
             ventaDetalle ventaDetalle = new ventaDetalle();
             ventaDetalle.setIdVenta(idVenta);
             ventaDetalle.setIdProducto(produc.getIdProducto());
-            //ventaDetalle.setCantidad(produc.getCantidad());
-            //ventaDetalle.setpUnitario(produc.getPrecio());
-            //ventaDetalle.setSubtotal(produc.getCantidad() * produc.getPrecio());
+            ventaDetalle.setCantidad(produc.getCantidad());
+            ventaDetalle.setpUnitario(produc.getPrecio());
+            ventaDetalle.setSubtotal(produc.getCantidad() * produc.getPrecio());
             ventaDetalle.setSincronizado(false);
             aVentaDetalle.add(ventaDetalle);
         }

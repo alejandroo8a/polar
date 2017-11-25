@@ -29,7 +29,7 @@ public class adapter_producto extends ArrayAdapter<producto> {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         ViewHolder holder;
-        producto prenda = getItem(position);
+        producto producto = getItem(position);
         if (null == convertView) {
                 //Si no existe, entonces inflarlo
                 convertView = inflater.inflate(R.layout.item_producto, parent, false);
@@ -42,9 +42,9 @@ public class adapter_producto extends ArrayAdapter<producto> {
                 holder = (ViewHolder) convertView.getTag();
         }
         // Setup.
-        holder.txtProductoItem.setText(prenda.getNombre());
-        //holder.txtCantidadItem.setText(String.valueOf(prenda.getCantidad()));
-        //holder.txtSubtotalItem.setText(String.valueOf(prenda.getPrecio()));
+        holder.txtProductoItem.setText(producto.getNombre());
+        holder.txtCantidadItem.setText(String.valueOf(producto.getCantidad()));
+        holder.txtSubtotalItem.setText(String.valueOf(producto.getPrecio()));
 
         return convertView;
         }

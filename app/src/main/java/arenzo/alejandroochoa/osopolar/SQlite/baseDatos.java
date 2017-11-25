@@ -99,6 +99,7 @@ public class baseDatos extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         boolean estadoInsercion = false;
         ContentValues nuevaVenta = new ContentValues();
+        nuevaVenta.put("IdCliente", venta.getIdCliente());
         nuevaVenta.put("Vendedor", venta.getVendedor());
         nuevaVenta.put("Fecha", obtenerFecha());
         nuevaVenta.put("Total", venta.getTotal());
@@ -269,6 +270,29 @@ public class baseDatos extends SQLiteOpenHelper {
             }while (cursor.moveToNext());
         }
         return aClientes;
+    }
+
+    public ArrayList<producto> obtenerProductos(int idListaPrecio){
+        SQLiteDatabase db = getWritableDatabase();
+        ArrayList<producto> aProducto = new ArrayList<>();
+        Cursor cursor = db.rawQuery("SELECT * FROM "+PRODUCTO, null);
+        if (cursor.moveToFirst()){
+            do{
+                producto producto = new producto();
+                producto.setIdProducto(cursor.getInt(0));
+                producto.setNombre(cursor.getString(1));
+                producto.setUnidadMedida(cursor.getString(2));
+                producto.setActivo(cursor.getString(3));
+                aProducto.add(producto);
+            }while (cursor.moveToNext());
+            for(producto producto : aProducto) {
+                cursor = db.rawQuery("SELECT Precio FROM " + PRODUCTOLISTA + " WHERE IdProducto = " + producto.getIdProducto() + " AND IdListaPrecio = " + idListaPrecio, null);
+                if(cursor.moveToFirst()){
+                    producto.setPrecio(cursor.getDouble(0));
+                }
+            }
+        }
+        return aProducto;
     }
 
     public void verTablaVentasDetalle(){

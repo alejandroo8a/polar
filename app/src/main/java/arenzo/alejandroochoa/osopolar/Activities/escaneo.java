@@ -110,7 +110,7 @@ public class escaneo extends AppCompatActivity {
                 Intent intent = new Intent(this, venta.class);
                 baseDatos bd = new baseDatos(getApplicationContext());
                 cliente cliente = bd.obtenerCliente(Integer.parseInt(result.getContents()));
-                intent.putExtra(RESULTADO, (Parcelable) cliente);
+                intent.putExtra(RESULTADO, cliente);
                 startActivity(intent);
             }
         } else {
@@ -121,7 +121,8 @@ public class escaneo extends AppCompatActivity {
 
     private void mostrarVenta(){
         Intent intent = new Intent(this, venta.class);
-        intent.putExtra(RESULTADO, "CLIENTE NUEVO");
+        cliente cliente = new cliente(0, "CLIENTE NUEVO");
+        intent.putExtra(RESULTADO, cliente);
         startActivity(intent);
     }
 
