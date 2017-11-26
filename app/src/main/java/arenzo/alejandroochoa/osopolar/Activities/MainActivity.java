@@ -23,6 +23,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -39,7 +40,7 @@ import arenzo.alejandroochoa.osopolar.R;
 import arenzo.alejandroochoa.osopolar.SQlite.baseDatos;
 
 public class MainActivity extends AppCompatActivity {
-//TODO FALTA OBTENER EL TOP 10 DE VENTAS Y LA PARTE DE SINCRONIZAR
+//TODO ENVIAR LOS DATOS DE SINCRONIZAR
     private final static String TAG = "MainActivity";
     private final String EXISTEIDEQUIPO = "EXISTEIDEQUIPO";
     private final String IDEQUIPO = "IDEQUIPO";
@@ -145,6 +146,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void cargarTopDeVentas(){
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, bd.obtenerTopVentas());
+        lvVentas.setAdapter(adapter);
+    }
+
     private void alertaAgregarIdEquipo(){
         LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService
                 (getApplicationContext().LAYOUT_INFLATER_SERVICE);
@@ -246,6 +252,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         obtenerCantidadVentas();
+        cargarTopDeVentas();
     }
 
     private void mostrarCargandoAnillo(){

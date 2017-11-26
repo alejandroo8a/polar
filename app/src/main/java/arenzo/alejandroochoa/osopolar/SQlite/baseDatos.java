@@ -294,6 +294,21 @@ public class baseDatos extends SQLiteOpenHelper {
         }
         return aProducto;
     }
+    public ArrayList<String> obtenerTopVentas(){
+        SQLiteDatabase db = getWritableDatabase();
+        ArrayList<String> aNombre = new ArrayList<>();
+        Cursor cursor = db.rawQuery("SELECT " + PRODUCTO + ".Nombre, SUM(" + VENTADETALLE + ".Cantidad) FROM " + VENTADETALLE +
+                " INNER JOIN " + PRODUCTO + " ON " + VENTADETALLE + ".IdProducto = " + PRODUCTO + ".IdProducto" +
+                " GROUP BY " + PRODUCTO + ".Nombre" +
+                " ORDER BY SUM(" + VENTADETALLE + ".cantidad) DESC" +
+                " LIMIT 5", null);
+        if (cursor.moveToFirst()){
+            do{
+                aNombre.add(cursor.getString(0) + " con " + cursor.getInt(1) + " productos vendidos");
+            }while (cursor.moveToNext());
+        }
+        return aNombre;
+    }
 
     public void verTablaVentasDetalle(){
         SQLiteDatabase db = getWritableDatabase();
