@@ -1,19 +1,18 @@
 package arenzo.alejandroochoa.osopolar.Fragments;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,7 +34,6 @@ import java.util.ArrayList;
 import arenzo.alejandroochoa.osopolar.Activities.venta;
 import arenzo.alejandroochoa.osopolar.Adapters.adapter_clientes;
 import arenzo.alejandroochoa.osopolar.ClasesBase.cliente;
-import arenzo.alejandroochoa.osopolar.ClasesBase.oVenta;
 import arenzo.alejandroochoa.osopolar.R;
 import arenzo.alejandroochoa.osopolar.SQlite.baseDatos;
 
@@ -45,7 +44,7 @@ import arenzo.alejandroochoa.osopolar.SQlite.baseDatos;
 public class busqueda extends DialogFragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private final static String TAG = "busqueda";
-    private final String CLIENTE = "CLIENTE";
+    private final String RESULTADO = "RESULTADO";
 
     private ListView lvClientesCercas;
     private TextView txtSinClientes;
@@ -104,7 +103,6 @@ public class busqueda extends DialogFragment implements GoogleApiClient.Connecti
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 mostrarVenta(aClientes.get(position));
-                Toast.makeText(getContext(), "Se selecciono el elemento "+lvClientesCercas.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -122,7 +120,8 @@ public class busqueda extends DialogFragment implements GoogleApiClient.Connecti
                 actionBar.setDisplayHomeAsUpEnabled(false);
                 this.dismiss();
                 break;
-            case R.id.action_save:
+            case R.id.ic_search:
+                buscarCliente();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -188,9 +187,40 @@ public class busqueda extends DialogFragment implements GoogleApiClient.Connecti
         }
     }
 
+    private void buscarCliente(){
+        LayoutInflater inflater = (LayoutInflater)getContext().getSystemService
+                (getContext().LAYOUT_INFLATER_SERVICE);
+        final View view = inflater.inflate(R.layout.item_buscar_cliente, null);
+        final EditText edtNombreCliente = view.findViewById(R.id.edtNombreCliente);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setView(view)
+                .setPositiveButton("Buscar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(edtNombreCliente.getText().length() > 0){
+                            aClientes.clear();
+                            aClientes = bd.obtenerClientesPorNombre(edtNombreCliente.getText().toString());
+                            if(aClientes.size() > 0)
+                                adapter.refreshEvents(aClientes);
+                            else
+                                Toast.makeText(getContext(), "Busqueda sin resultados", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                })
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .setCancelable(false)
+        .show();
+    }
+
     private void mostrarVenta(final cliente cliente){
-        Intent intent = new Intent(getActivity(), venta.class);
-        intent.putExtra(CLIENTE, (Parcelable) cliente);
+        Intent intent = new Intent(getContext(), venta.class);
+        intent.putExtra(RESULTADO, cliente);
         startActivity(intent);
+        this.dismiss();
     }
 }

@@ -172,8 +172,8 @@ public class baseDatos extends SQLiteOpenHelper {
             cvCliente.put("Nombre", cliente.getNombre());
             cvCliente.put("Calle", cliente.getCalle());
             cvCliente.put("Numero", cliente.getNumero());
-            cvCliente.put("Latitud", cliente.getLatitud());
-            cvCliente.put("Longitud", cliente.getLongitud());
+            cvCliente.put("Latitud", 25.661357F);
+            cvCliente.put("Longitud", -100.275749F);
             try{
                 db.insertOrThrow(CLIENTE, null, cvCliente);
             }catch (SQLiteException ex){
@@ -229,7 +229,7 @@ public class baseDatos extends SQLiteOpenHelper {
         return montoVentas;
     }
 
-    public cliente obtenerCliente(int idCliente){
+    public cliente obtenerClientePorId(int idCliente){
         SQLiteDatabase db = getWritableDatabase();
         cliente cliente = new cliente();
         Cursor cursor = db.rawQuery("SELECT * FROM "+CLIENTE+" WHERE IdCliente = "+ idCliente, null);
@@ -247,6 +247,26 @@ public class baseDatos extends SQLiteOpenHelper {
             }
         }
         return cliente;
+    }
+
+    public ArrayList<cliente> obtenerClientesPorNombre(String nombre){
+        ArrayList<cliente> aClientes = new ArrayList<>();
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + CLIENTE + " WHERE Nombre LIKE '" + nombre + "%'", null);
+        if (cursor.moveToFirst()) {
+            do {
+                cliente cliente = new cliente();
+                cliente.setIdCliente(cursor.getInt(0));
+                cliente.setIdListaPrecios(cursor.getInt(1));
+                cliente.setNombre(cursor.getString(2));
+                cliente.setCalle(cursor.getString(3));
+                cliente.setNumero(cursor.getString(4));
+                cliente.setLatitud(cursor.getString(5));
+                cliente.setLongitud(cursor.getString(6));
+                aClientes.add(cliente);
+            } while (cursor.moveToNext());
+        }
+        return aClientes;
     }
 
     public ArrayList<cliente> obtenerClientesCercanos(Location lastLocation){

@@ -42,4 +42,5 @@
     <string name="precio"> Precio</string>
     <string name="confirmar"> Confirmar</string>
     <string name="hielo_bolsa_grande">Hielo bolsa grande</string>
+    <string name="nombre_cliente">Ingresa el nombre del cliente</string>
 </resources>

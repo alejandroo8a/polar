@@ -3,7 +3,6 @@ package arenzo.alejandroochoa.osopolar.Activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -26,7 +25,7 @@ import arenzo.alejandroochoa.osopolar.SQlite.baseDatos;
 
 
 public class escaneo extends AppCompatActivity {
-//TODO FALTA HACER LA BUSQUEDA DEL CLIENTE EN LA BD
+
     private final static String TAG = "escaneo";
     private final String RESULTADO = "RESULTADO";
 
@@ -46,7 +45,7 @@ public class escaneo extends AppCompatActivity {
         btnNuevoCliente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mostrarVenta();
+                mostrarVentaClienteNuevo();
             }
         });
         btnBuscarCliente.setOnClickListener(new View.OnClickListener() {
@@ -109,7 +108,7 @@ public class escaneo extends AppCompatActivity {
             if(result.getContents() != null) {
                 Intent intent = new Intent(this, venta.class);
                 baseDatos bd = new baseDatos(getApplicationContext());
-                cliente cliente = bd.obtenerCliente(Integer.parseInt(result.getContents()));
+                cliente cliente = bd.obtenerClientePorId(Integer.parseInt(result.getContents()));
                 intent.putExtra(RESULTADO, cliente);
                 startActivity(intent);
             }
@@ -119,7 +118,7 @@ public class escaneo extends AppCompatActivity {
         }
     }
 
-    private void mostrarVenta(){
+    private void mostrarVentaClienteNuevo(){
         Intent intent = new Intent(this, venta.class);
         cliente cliente = new cliente(0, "CLIENTE NUEVO");
         intent.putExtra(RESULTADO, cliente);
@@ -129,7 +128,6 @@ public class escaneo extends AppCompatActivity {
     private void verBuscarCliente(){
         FragmentManager fragmentManager = getSupportFragmentManager();
         busqueda newFragment = new busqueda();
-
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         transaction.add(android.R.id.content, newFragment, "busqueda")

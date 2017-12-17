@@ -73,7 +73,6 @@ public class webServices {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(context, "Error en la peticion: "+error, Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
             }
         }) /*{
             @Override
@@ -106,7 +105,6 @@ public class webServices {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                dialog.dismiss();
                 Toast.makeText(context, "Error en la peticion: "+error, Toast.LENGTH_SHORT).show();
             }
         })/*{
@@ -140,7 +138,6 @@ public class webServices {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                dialog.dismiss();
                 Toast.makeText(context, "Error en la peticion: "+error, Toast.LENGTH_SHORT).show();
             }
         })/*{
@@ -174,7 +171,6 @@ public class webServices {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                dialog.dismiss();
                 Toast.makeText(context, "Error en la peticion: "+error, Toast.LENGTH_SHORT).show();
             }
         })/*{

@@ -80,4 +80,10 @@ public class adapter_clientes extends BaseAdapter {
     static class viewHolder{
         private TextView txtNombre;
     }
+
+    public void refreshEvents(List<cliente> aClientes) {
+        this.aClientes.clear();
+        this.aClientes.addAll(aClientes);
+        notifyDataSetChanged();
+    }
 }
