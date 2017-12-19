@@ -17,6 +17,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import arenzo.alejandroochoa.osopolar.ClasesBase.cliente;
@@ -39,8 +40,7 @@ public class webServices {
     private baseDatos bd;
 
     private final String URLBASEDEVELOP = "http://xtremesoftware.com.mx/portafolio/oso/public/api/";
-    private final String URLENVIARVENTAS = "";
-    private final String URLENVIARVENTADETALLE = "";
+    private final String URLENVIARVENTAS = "Ventas";
     private final String URLOBTENERPRODUCTO = "ObtenerProductos";
     private final String URLOBTENERLISTAPRECIOS = "ObtenerListasPrecios";
     private final String URLPRODUCTOSLISTAS = "ObtenerProductosLista";
@@ -184,40 +184,21 @@ public class webServices {
         requestQueue.addToRequestQueue(request);
     }
 
-    public void enviarVentas(final ArrayList<oVenta> aVentas){
-        JSONArray jaVentas = new parsearWebService().parsearVentas(aVentas);
+    public void enviarVentas(final List<oVenta> aVentas, final List<ventaDetalle> aVentaDetalle, final String idEquipo, final Dialog anillo){
+        JSONArray jaVentas = parsearWebService.parsearVentas(aVentas, aVentaDetalle);
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST,
-                URLENVIARVENTAS,
+                URLBASEDEVELOP + URLENVIARVENTAS,
                 jaVentas,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-
+                            obtenerProductos(idEquipo, anillo);
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "Error en la peticion: "+error, Toast.LENGTH_SHORT).show();
-            }
-        });
-        requestQueue.addToRequestQueue(request);
-    }
-
-    public void enviarVentaDetalles(final ArrayList<ventaDetalle> aVentaDetalles){
-        JSONArray jaVentaDetalle = new parsearWebService().parsearVentaDetalles(aVentaDetalles);
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST,
-                URLENVIARVENTADETALLE,
-                jaVentaDetalle,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "Error en la peticion: "+error, Toast.LENGTH_SHORT).show();
-
+                anillo.dismiss();
+                Toast.makeText(context, "Error en la peticion: "+error, Toast.LENGTH_LONG).show();
             }
         });
         requestQueue.addToRequestQueue(request);

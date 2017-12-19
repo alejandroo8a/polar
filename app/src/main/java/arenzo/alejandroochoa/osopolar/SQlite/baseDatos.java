@@ -314,6 +314,46 @@ public class baseDatos extends SQLiteOpenHelper {
         }
         return aProducto;
     }
+
+    public ArrayList<oVenta> obtenerVentas(){
+        SQLiteDatabase db = getWritableDatabase();
+        ArrayList<oVenta> aVentas = new ArrayList<>();
+        Cursor cursor = db.rawQuery("SELECT * FROM "+VENTA, null);
+        if (cursor.moveToFirst()){
+            do{
+                oVenta venta = new oVenta();
+                venta.setIdVenta(cursor.getInt(0));
+                venta.setIdCliente(cursor.getInt(1));
+                venta.setVendedor(cursor.getString(2));
+                venta.setFecha(cursor.getString(3));
+                venta.setTotal(cursor.getDouble(4));
+                venta.setLatitud(cursor.getString(5));
+                venta.setLongitud(cursor.getString(6));
+                venta.setCancelada(cursor.getInt(7) > 0);
+                aVentas.add(venta);
+            }while (cursor.moveToNext());
+        }
+        return aVentas;
+    }
+
+    public ArrayList<ventaDetalle> obtenerVentaDetalle(){
+        SQLiteDatabase db = getWritableDatabase();
+        ArrayList<ventaDetalle> aVentaDetalle = new ArrayList<>();
+        Cursor cursor = db.rawQuery("SELECT * FROM "+VENTADETALLE, null);
+        if (cursor.moveToFirst()){
+            do{
+                ventaDetalle venta = new ventaDetalle();
+                venta.setIdVenta(cursor.getInt(0));
+                venta.setIdProducto(cursor.getInt(1));
+                venta.setCantidad(cursor.getInt(2));
+                venta.setpUnitario(cursor.getDouble(3));
+                venta.setSubtotal(cursor.getDouble(4));
+                aVentaDetalle.add(venta);
+            }while (cursor.moveToNext());
+        }
+        return aVentaDetalle;
+    }
+
     public ArrayList<String> obtenerTopVentas(){
         SQLiteDatabase db = getWritableDatabase();
         ArrayList<String> aNombre = new ArrayList<>();
@@ -330,18 +370,6 @@ public class baseDatos extends SQLiteOpenHelper {
         return aNombre;
     }
 
-    public void verTablaVentasDetalle(){
-        SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM "+VENTADETALLE,null);
-        if (cursor.moveToFirst()) {
-            do {
-                Log.d(TAG, "verTablaVentasdetalle: " + cursor.getInt(0)+"-"+cursor.getInt(1));
-            } while (cursor.moveToNext());
-        }
-
-    }
-
-
     //METODOS PROPIOS PARA LAS CONSULTAS
 
     public double obtenerDistancia(String latitud, String longitud, Location lastLocation){
@@ -350,7 +378,6 @@ public class baseDatos extends SQLiteOpenHelper {
         ubicacionCliente.setLongitude(Double.parseDouble(longitud));
         return lastLocation.distanceTo(ubicacionCliente);
     }
-
 
     private String obtenerFecha(){
         Date date = new Date();

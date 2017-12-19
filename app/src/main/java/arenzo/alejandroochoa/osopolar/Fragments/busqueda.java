@@ -73,7 +73,7 @@ public class busqueda extends DialogFragment implements GoogleApiClient.Connecti
             // Habilitar el Up Button
             actionBar.setDisplayHomeAsUpEnabled(true);
             // Cambiar icono del Up Button
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_close);
+            //actionBar.setHomeAsUpIndicator(R.drawable.ic_close);
         }
     }
 

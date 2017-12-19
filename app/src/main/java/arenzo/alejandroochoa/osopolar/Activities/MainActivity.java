@@ -33,8 +33,11 @@ import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import arenzo.alejandroochoa.osopolar.ClasesBase.conexion;
+import arenzo.alejandroochoa.osopolar.ClasesBase.oVenta;
+import arenzo.alejandroochoa.osopolar.ClasesBase.ventaDetalle;
 import arenzo.alejandroochoa.osopolar.Peticiones.webServices;
 import arenzo.alejandroochoa.osopolar.R;
 import arenzo.alejandroochoa.osopolar.SQlite.baseDatos;
@@ -188,10 +191,20 @@ public class MainActivity extends AppCompatActivity {
 
     private void sincronizarTodosDatos(){
         mostrarCargandoAnillo();
-        requestObtenerProductos(sharedPreferences.getString(IDEQUIPO, "1"));
+        List<oVenta> aVentas = bd.obtenerVentas();
+        if(aVentas.size() > 0){
+            requestVentas(aVentas, bd.obtenerVentaDetalle());
+        } else {
+            requestObtenerProductos(sharedPreferences.getString(IDEQUIPO, "1"));
+        }
     }
 
-    private void requestObtenerProductos(String idEquipo){
+    private void requestVentas(List<oVenta> aVentas, List<ventaDetalle> aVentaDetalle){
+        final webServices webServices = new webServices(getApplicationContext());
+        webServices.enviarVentas(aVentas, aVentaDetalle, sharedPreferences.getString(IDEQUIPO, "1"), anillo);
+    }
+
+    public void requestObtenerProductos(String idEquipo){
         final webServices webServices = new webServices(getApplicationContext());
         webServices.obtenerProductos(idEquipo, anillo);
     }

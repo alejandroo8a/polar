@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import arenzo.alejandroochoa.osopolar.ClasesBase.cliente;
 import arenzo.alejandroochoa.osopolar.ClasesBase.listaPrecio;
@@ -26,19 +27,18 @@ public final class parsearWebService {
 
     private final static String TAG = "parsearWebService";
 
-    public static JSONArray parsearVentas(ArrayList<oVenta> aVentas){
+    public static JSONArray parsearVentas(List<oVenta> aVentas, List<ventaDetalle> aVentaDetalle){
         JSONArray jaVentas=new JSONArray();
         for(oVenta venta : aVentas){
             JSONObject jVenta = new JSONObject();
             try {
-                jVenta.put("IdVenta", venta.getIdVenta());
+                jVenta.put("IdCliente", venta.getIdCliente());
                 jVenta.put("Vendedor", venta.getVendedor());
                 jVenta.put("Fecha", venta.getFecha());
-                jVenta.put("Total", venta.getTotal());
-                jVenta.put("Latitud", venta.getLatitud());
-                jVenta.put("Longitud", venta.getLongitud());
-                jVenta.put("Cancelada", venta.getCancelada());
-                jVenta.put("Sincronizado", venta.getSincronizado());
+                jVenta.put("Lat", venta.getLatitud());
+                jVenta.put("Long", venta.getLongitud());
+                jVenta.put("Cancelado", venta.getCancelada());
+                jVenta.put("Detalles", parsearVentaDetalles(aVentaDetalle, venta.getIdVenta()));
                 jaVentas.put(jVenta);
             } catch (JSONException e) {
                 Log.e(TAG, "Ocurrio un error en el parseo de las ventas: "+e );
@@ -47,20 +47,20 @@ public final class parsearWebService {
         return jaVentas;
     }
 
-    public static JSONArray parsearVentaDetalles(ArrayList<ventaDetalle> aVentaDetalles) {
+    private static JSONArray parsearVentaDetalles(List<ventaDetalle> aVentaDetalles, int idVenta) {
         JSONArray jaVentaDetalles=new JSONArray();
         for(ventaDetalle ventaDetalles : aVentaDetalles){
-            JSONObject jVentaDetalles = new JSONObject();
-            try {
-                jVentaDetalles.put("IdVenta", ventaDetalles.getIdVenta());
-                jVentaDetalles.put("IdProducto", ventaDetalles.getIdProducto());
-                jVentaDetalles.put("Cantidad", ventaDetalles.getCantidad());
-                jVentaDetalles.put("PUnitario", ventaDetalles.getpUnitario());
-                jVentaDetalles.put("Subtotal", ventaDetalles.getSubtotal());
-                jVentaDetalles.put("Sincronizado", ventaDetalles.isSincronizado());
-                jaVentaDetalles.put(jVentaDetalles);
-            } catch (JSONException e) {
-                Log.e(TAG, "Ocurrio un error en el parseo de las ventas: "+e );
+            if(ventaDetalles.getIdVenta() == idVenta) {
+                JSONObject jVentaDetalles = new JSONObject();
+                try {
+                    jVentaDetalles.put("IdProducto", ventaDetalles.getIdVenta());
+                    jVentaDetalles.put("Cantidad", ventaDetalles.getIdProducto());
+                    jVentaDetalles.put("PUnidad", ventaDetalles.getpUnitario());
+                    jVentaDetalles.put("Subtotal", ventaDetalles.getSubtotal());
+                    jaVentaDetalles.put(jVentaDetalles);
+                } catch (JSONException e) {
+                    Log.e(TAG, "Ocurrio un error en el parseo de las ventas: " + e);
+                }
             }
         }
         return jaVentaDetalles;

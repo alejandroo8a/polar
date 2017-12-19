@@ -23,7 +23,8 @@
         <activity
             android:name=".Activities.escaneo"
             android:screenOrientation="portrait"/>
-        <activity android:name=".Activities.venta"></activity>
+        <activity android:name=".Activities.venta"
+            android:windowSoftInputMode="adjustPan"> ></activity>
     </application>
 
 </manifest>
