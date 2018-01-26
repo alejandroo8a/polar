@@ -20,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import arenzo.alejandroochoa.osopolar.ClasesBase.conexion;
@@ -43,7 +45,8 @@ import arenzo.alejandroochoa.osopolar.R;
 import arenzo.alejandroochoa.osopolar.SQlite.baseDatos;
 
 public class MainActivity extends AppCompatActivity {
-//TODO ENVIAR LOS DATOS DE SINCRONIZAR
+//
+// TODO ENVIAR LOS DATOS DE SINCRONIZAR
     private final static String TAG = "MainActivity";
     private final String EXISTEIDEQUIPO = "EXISTEIDEQUIPO";
     private final String IDEQUIPO = "IDEQUIPO";
@@ -193,6 +196,12 @@ public class MainActivity extends AppCompatActivity {
         mostrarCargandoAnillo();
         List<oVenta> aVentas = bd.obtenerVentas();
         if(aVentas.size() > 0){
+
+
+
+
+                Log.d("ventas", String.valueOf(aVentas));
+
             requestVentas(aVentas, bd.obtenerVentaDetalle());
         } else {
             requestObtenerProductos(sharedPreferences.getString(IDEQUIPO, "1"));
@@ -201,7 +210,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void requestVentas(List<oVenta> aVentas, List<ventaDetalle> aVentaDetalle){
         final webServices webServices = new webServices(getApplicationContext());
-        webServices.enviarVentas(aVentas, aVentaDetalle, sharedPreferences.getString(IDEQUIPO, "1"), anillo);
+        if ( webServices.enviarVentas(aVentas, aVentaDetalle
+                , sharedPreferences.getString(IDEQUIPO, "1"), anillo)){
+            txtVentaTotal.setText("0");
+            txtMontoVentas.setText("$0.00");
+        }
     }
 
     public void requestObtenerProductos(String idEquipo){

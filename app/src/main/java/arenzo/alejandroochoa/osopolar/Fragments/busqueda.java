@@ -80,6 +80,7 @@ public class busqueda extends DialogFragment implements GoogleApiClient.Connecti
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.dialog_busqueda, container, false);
         lvClientesCercas = (ListView) view.findViewById(R.id.lvClientesCercas);
         txtSinClientes = (TextView) view.findViewById(R.id.txtSinClientes);

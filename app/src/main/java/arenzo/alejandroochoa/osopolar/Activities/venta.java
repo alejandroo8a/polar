@@ -88,6 +88,7 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
     }
 
     private void cargarElementosVista(){
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         txtNombreCliente = (TextView)findViewById(R.id.txtNombreCliente);
         txtSubtotal = (TextView)findViewById(R.id.txtSubtotal);
         txtTotal = (TextView)findViewById(R.id.txtTotal);

@@ -34,6 +34,7 @@ public class escaneo extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_escaneo);
         cargarElementosVista();
         btnEscaner.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +58,7 @@ public class escaneo extends AppCompatActivity {
     }
 
     private void cargarElementosVista(){
+
         btnEscaner = (ImageButton)findViewById(R.id.btnEscaner);
         btnNuevoCliente = (ImageButton)findViewById(R.id.btnNuevoCliente);
         btnBuscarCliente = (ImageButton)findViewById(R.id.btnBuscarCliente);

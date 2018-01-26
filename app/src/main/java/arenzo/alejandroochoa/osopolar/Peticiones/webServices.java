@@ -40,7 +40,7 @@ public class webServices {
     private baseDatos bd;
 
     private final String URLBASEDEVELOP = "http://xtremesoftware.com.mx/portafolio/oso/public/api/";
-    private final String URLENVIARVENTAS = "Ventas";
+    private final String URLENVIARVENTAS = "EnviarVentas";
     private final String URLOBTENERPRODUCTO = "ObtenerProductos";
     private final String URLOBTENERLISTAPRECIOS = "ObtenerListasPrecios";
     private final String URLPRODUCTOSLISTAS = "ObtenerProductosLista";
@@ -184,8 +184,10 @@ public class webServices {
         requestQueue.addToRequestQueue(request);
     }
 
-    public void enviarVentas(final List<oVenta> aVentas, final List<ventaDetalle> aVentaDetalle, final String idEquipo, final Dialog anillo){
+    public boolean enviarVentas(final List<oVenta> aVentas, final List<ventaDetalle> aVentaDetalle, final String idEquipo, final Dialog anillo){
         JSONArray jaVentas = parsearWebService.parsearVentas(aVentas, aVentaDetalle);
+
+        Log.d("ventas volley",String.valueOf(jaVentas));
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST,
                 URLBASEDEVELOP + URLENVIARVENTAS,
                 jaVentas,
@@ -193,15 +195,18 @@ public class webServices {
                     @Override
                     public void onResponse(JSONArray response) {
                             obtenerProductos(idEquipo, anillo);
+                        Toast.makeText(context, "success ", Toast.LENGTH_LONG).show();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 anillo.dismiss();
-                Toast.makeText(context, "Error en la peticion: "+error, Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Error en la aqui: "+error, Toast.LENGTH_LONG).show();
             }
         });
         requestQueue.addToRequestQueue(request);
+
+        return true;
     }
 
 

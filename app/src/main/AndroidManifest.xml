@@ -22,9 +22,19 @@
         </activity>
         <activity
             android:name=".Activities.escaneo"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait">
+
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".Activities.MainActivity"/>
+
+        </activity>
+
+        />
+
+
         <activity android:name=".Activities.venta"
-            android:windowSoftInputMode="adjustPan"> ></activity>
+            android:windowSoftInputMode="adjustPan">
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".Activities.venta"/>
+            ></activity>
     </application>
 
 </manifest>
