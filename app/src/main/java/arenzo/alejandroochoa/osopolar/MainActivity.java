@@ -1,4 +1,4 @@
-package arenzo.alejandroochoa.osopolar;
+﻿package arenzo.alejandroochoa.osopolar;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -35,6 +35,7 @@ import arenzo.alejandroochoa.osopolar.ClasesBase.conexion;
 import arenzo.alejandroochoa.osopolar.SQlite.baseDatos;
 
 public class MainActivity extends AppCompatActivity {
+//cambios
 //TODO FALTA OBTENER EL TOP 10 DE VENTAS Y LA PARTE DE SINCRONIZAR
     private final static String TAG = "MainActivity";
     private final String EXISTEIDEQUIPO = "EXISTEIDEQUIPO";
