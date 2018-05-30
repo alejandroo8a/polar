@@ -1,20 +1,38 @@
 package arenzo.alejandroochoa.osopolar.ClasesBase;
 
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
 /**
  * Created by AlejandroMissael on 27/04/2017.
  */
 
-public class cliente {
+public class cliente implements Serializable {
 
     private Integer idCliente;
-    private Integer idListaPrecios;
     private String nombre;
     private String calle;
     private String numero;
     private String latitud;
     private String longitud;
+    private Integer idListaPrecios;
+    private Integer credito;
+
+    public Integer getCredito() {
+        return credito;
+    }
+
+    public void setCredito(Integer credito) {
+        this.credito = credito;
+    }
 
     public cliente() {
+    }
+
+    public cliente(Integer idCliente, String nombre) {
+        this.idCliente = idCliente;
+        this.nombre = nombre;
     }
 
     public Integer getIdCliente() {

@@ -3,238 +3,450 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    tools:ignore="MissingPrefix"
-    android:background="@color/icons"
     android:layout_height="match_parent"
-    tools:context="arenzo.alejandroochoa.osopolar.venta">
+    android:background="@drawable/degradado_fondo"
+    tools:context="arenzo.alejandroochoa.osopolar.Activities.venta"
+    tools:ignore="MissingPrefix">
 
-    <TextView
-        android:id="@+id/txtTotal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0.0"
-        android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/grdProductos"
-        app:layout_constraintLeft_toRightOf="@+id/txtTo"
-        android:layout_marginLeft="8dp" />
-
-    <TextView
-        android:id="@+id/txtSubtotal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0.0"
-        app:layout_constraintLeft_toRightOf="@+id/txtSub"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/edtCantidad" />
-
-    <TextView
-        android:id="@+id/txtVenta"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/venta"
-        fontPath="fonts/Roboto-Bold.ttf"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp" />
-
-    <TextView
-        android:id="@+id/txtNombreCliente"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/la_tiendita_de_la_esquina"
-        android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@+id/txtVenta"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp" />
-
-    <TextView
-        android:id="@+id/txtProducto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/producto"
-        android:layout_marginTop="42dp"
-        app:layout_constraintTop_toBottomOf="@+id/txtNombreCliente"
-        android:layout_marginLeft="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginStart="16dp" />
-
-    <Spinner
-        android:id="@+id/spProductos"
-        style="@style/Base.Widget.AppCompat.Spinner"
-        android:layout_width="298dp"
-        android:layout_height="34dp"
-        android:layout_marginLeft="19dp"
-        android:layout_marginStart="19dp"
-        android:layout_marginTop="26dp"
-        android:entries="@array/items"
-        android:spinnerMode="dropdown"
-        app:layout_constraintLeft_toRightOf="@+id/txtProducto"
-        app:layout_constraintTop_toBottomOf="@+id/txtNombreCliente"
-        tools:layout_editor_absoluteY="94dp" />
-
-    <EditText
-        android:id="@+id/edtPrecioUnitario"
-        android:layout_width="82dp"
-        android:layout_height="42dp"
-        android:ems="10"
-        android:maxLength="7"
-        android:inputType="numberDecimal"
-        android:layout_marginLeft="97dp"
-        android:layout_marginTop="6dp"
-        app:layout_constraintTop_toBottomOf="@+id/txtProducto"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginStart="97dp" />
-
-    <TextView
-        android:id="@+id/txtCantidad"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/cantidad"
-        android:layout_marginTop="87dp"
-        app:layout_constraintTop_toBottomOf="@+id/txtProducto"
-        android:layout_marginLeft="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginStart="16dp" />
-
-    <EditText
-        android:id="@+id/edtCantidad"
-        android:layout_width="87dp"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="0dp"
         android:layout_height="45dp"
-        android:ems="10"
-        android:maxLength="4"
-        android:inputType="number"
-        android:layout_marginTop="65dp"
-        app:layout_constraintTop_toBottomOf="@+id/spProductos"
-        app:layout_constraintLeft_toRightOf="@+id/txtCantidad"
-        android:layout_marginLeft="24dp"
-        android:layout_marginStart="24dp" />
-
-    <TextView
-        android:id="@+id/txtSub"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/subtotal"
-        android:layout_marginTop="27dp"
-        app:layout_constraintTop_toBottomOf="@+id/txtCantidad"
         android:layout_marginLeft="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginStart="16dp" />
-
-
-    <TextView
-        android:id="@+id/txtTo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/total_venta"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="31dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnFinalizarVenta"
-        tools:layout_editor_absoluteX="282dp"
+        android:layout_marginRight="16dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/grdProductos"
-        app:layout_constraintVertical_bias="1.0" />
+        android:background="#b2dfdb"
 
-    <Button
-        android:id="@+id/btnFinalizarVenta"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/finalizar"
-        app:layout_constraintLeft_toRightOf="@+id/btnCancelarVenta"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="57dp"
-        app:layout_constraintTop_toBottomOf="@+id/grdProductos" />
-
-    <Button
-        android:id="@+id/btnCancelarVenta"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/cancelar"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="88dp"
-        android:layout_marginStart="88dp"
-        android:layout_marginTop="57dp"
-        app:layout_constraintTop_toBottomOf="@+id/grdProductos" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/txtNombreCliente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/la_tiendita_de_la_esquina"
+            android:textColor="#000"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/clProductos"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/icons"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp">
+
+        <TextView
+            android:id="@+id/txtProducto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/producto"
+            android:textColor="@color/verde"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="16dp" />
+
+        <Spinner
+            android:id="@+id/spProductos"
+            style="@style/Base.Widget.AppCompat.Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="16dp"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginEnd="16dp" />
+
+        <ImageView
+            android:id="@+id/imgSeparadorProductos"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spProductos"
+            app:srcCompat="@color/divider" />
+
+        <TextView
+            android:id="@+id/txtPrecio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/precio"
+            android:textColor="@color/verde"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgSeparadorProductos"
+            android:layout_marginStart="16dp" />
+
+        <TextView
+            android:id="@+id/txtPrecioUnitario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="$ 27.00"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@+id/spProductos"
+            app:layout_constraintTop_toBottomOf="@+id/imgSeparadorProductos" />
+
+        <ImageView
+            android:id="@+id/imgSeparadorCredito"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtPrecioUnitario"
+            app:srcCompat="@color/divider" />
+
+        <TextView
+            android:id="@+id/txtCredito"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="10dp"
+            android:text="Crédito"
+            android:textColor="@color/verde"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgSeparadorCredito" />
+
+
+        <Switch
+            android:id="@+id/swCreditos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@+id/spProductos"
+            app:layout_constraintTop_toBottomOf="@+id/imgSeparadorCredito" />
+
+
+        <TextView
+            android:id="@+id/textCreditover"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:visibility="invisible"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@+id/spProductos"
+            app:layout_constraintTop_toBottomOf="@+id/imgSeparadorCredito" />
+
+
+    </android.support.constraint.ConstraintLayout>
 
     <ImageButton
         android:id="@+id/btnAgregarProducto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_plus"
-        android:background="@color/icons"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginRight="23dp"
+        android:background="@color/fondoMain"
+        android:scaleType="centerCrop"
+        android:tint="@color/verde"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginBottom="25dp"
-        app:layout_constraintBottom_toTopOf="@+id/grdProductos"
-        android:layout_marginRight="38dp"
-        android:layout_marginEnd="39dp" />
+        app:srcCompat="@drawable/ic_plus"
+        android:layout_marginEnd="23dp"
+        app:layout_constraintTop_toTopOf="@+id/constraintLayout2"
+        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout2"
+        android:layout_marginBottom="8dp" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="0dp"
+        android:layout_height="130dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/icons"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/btnAgregarProducto"
+        app:layout_constraintTop_toBottomOf="@+id/clProductos">
+
+        <TextView
+            android:id="@+id/txtCantidad"
+            android:layout_width="wrap_content"
+            android:layout_height="19dp"
+            android:layout_marginLeft="16dp"
+
+            android:layout_marginTop="16dp"
+            android:text="@string/cantidad"
+            android:textColor="@color/verde"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/edtCantidad"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="36dp"
+            android:ems="10"
+
+            android:focusable="true"
+            android:inputType="number"
+            android:maxLength="4"
+            android:singleLine="true"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@+id/txtCantidad"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imgSeparadorCantidad"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtCantidad"
+            app:srcCompat="@color/divider" />
+
+        <TextView
+            android:id="@+id/txtprecionego"
+            android:layout_width="wrap_content"
+            android:layout_height="19dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="56dp"
+            android:text="Precio Lista"
+            android:textColor="@color/verde"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/edtprecionego"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="$"
+
+            android:inputType="number"
+            android:maxLength="4"
+            android:singleLine="true"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/imgSeparadorprecionego"
+            app:layout_constraintRight_toRightOf="@id/edtCantidad"
+            tools:layout_editor_absoluteX="117dp" />
+
+        <ImageView
+            android:id="@+id/imgSeparadorprecionego"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginBottom="25dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtprecionego"
+            app:srcCompat="@color/divider" />
+
+        <TextView
+            android:id="@+id/txtCanti"
+            android:layout_width="80dp"
+            android:layout_height="19dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="48dp"
+            android:text="@string/subtotal_solo"
+            android:textColor="@color/verde"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgSeparadorCantidad" />
+
+        <TextView
+            android:id="@+id/txtSubtotal"
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="52dp"
+            android:text="$0.0"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@+id/edtprecionego"
+
+            app:layout_constraintTop_toBottomOf="@+id/imgSeparadorCantidad" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="14dp"
+        android:background="@color/verde"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:id="@+id/constraintLayout3">
+
+        <TextView
+            android:id="@+id/txtProdu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/producto"
+            android:textColor="@color/primary_light"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="16dp" />
+
+        <TextView
+            android:id="@+id/txtSubTo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/subtotal_solo"
+            android:textColor="@color/primary_light"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginRight="16dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="16dp" />
+
+        <TextView
+            android:id="@+id/txtCantidadTabla"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cantidad"
+            android:textColor="@color/primary_light"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="12dp"
+            app:layout_constraintRight_toLeftOf="@+id/txtSubTo"
+            android:layout_marginRight="24dp"
+            android:layout_marginEnd="24dp" />
+    </android.support.constraint.ConstraintLayout>
 
     <GridView
         android:id="@+id/grdProductos"
-        android:layout_width="380dp"
-        android:layout_height="166dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="36dp"
-        android:background="@drawable/borde"
-        app:layout_constraintHorizontal_bias="0.466"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/primary_light"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtSubtotal" />
-
-    <TextView
-        android:id="@+id/txtPrecio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Precio"
-        android:layout_marginLeft="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="31dp"
-        app:layout_constraintTop_toBottomOf="@+id/txtProducto"
-        android:layout_marginStart="16dp" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Producto"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/grdProductos"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout4" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout4"
+        android:layout_width="180dp"
+        android:layout_height="35dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/icons"
+        app:layout_constraintBottom_toTopOf="@+id/btnFinalizarVenta"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <TextView
+            android:id="@+id/txtTota"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/total"
+            android:textColor="@color/verde"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/txtTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@+id/txtTota"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="$ 0.00"
+            app:layout_constraintHorizontal_bias="0.698" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <Button
+        android:id="@+id/btnFinalizarVenta"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/borde_boton"
+        android:backgroundTint="@color/accent"
+        android:text="@string/confirmar"
+        android:textColor="@color/icons"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginEnd="16dp" />
+
+    <Button
+        android:id="@+id/btnCancelarVenta"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="17dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:background="@android:color/transparent"
+        android:drawableLeft="@drawable/ic_cancel"
+        android:text="Cancelar"
+        android:textAlignment="textEnd"
+        android:textColor="@color/common_google_signin_btn_text_light_focused"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cantidad"
-        android:layout_marginBottom="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/grdProductos"
-        app:layout_constraintLeft_toRightOf="@+id/textView"
-        android:layout_marginLeft="84dp" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Subtotal"
-        android:layout_marginBottom="-10dp"
-        app:layout_constraintBottom_toTopOf="@+id/grdProductos"
-        app:layout_constraintLeft_toRightOf="@+id/textView2"
-        android:layout_marginLeft="104dp" />
 </android.support.constraint.ConstraintLayout>
