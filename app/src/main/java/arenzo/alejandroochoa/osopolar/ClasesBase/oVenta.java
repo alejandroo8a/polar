@@ -15,6 +15,24 @@ public class oVenta {
     private String longitud;
     private Boolean cancelada;
     private Boolean sincronizado;
+    private Integer credito;
+    private String cliente;
+
+    public String getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(String cliente) {
+        this.cliente = cliente;
+    }
+
+    public Integer getCredito() {
+        return credito;
+    }
+
+    public void setCredito(Integer credito) {
+        this.credito = credito;
+    }
 
     public oVenta() {
     }

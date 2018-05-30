@@ -8,10 +8,31 @@ public class ventaDetalle {
 
     private Integer idVenta;
     private Integer idProducto;
-    private Integer cantidad;
+    private Float cantidad;
     private Double pUnitario;
     private Double subtotal;
+    private  Integer credito;
+    public String Producto;
+
+    public String getProducto() {
+        return Producto;
+    }
+
+    public void setProducto(String producto) {
+        Producto = producto;
+    }
+
+    public Integer getCredito() {
+        return credito;
+    }
+
+    public void setCredito(Integer credito) {
+        this.credito = credito;
+    }
+    //private String precio_venta;
+
     private boolean sincronizado;
+    //private Double precio_vendido;
 
     public ventaDetalle() {
     }
@@ -32,11 +53,11 @@ public class ventaDetalle {
         this.idProducto = idProducto;
     }
 
-    public Integer getCantidad() {
+    public Float getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(Integer cantidad) {
+    public void setCantidad(Float cantidad) {
         this.cantidad = cantidad;
     }
 

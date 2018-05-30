@@ -12,12 +12,13 @@
 
         <TextView
             android:id="@+id/txtProductoItem"
-            android:hint="Hielo bolsa grande"
-            android:textSize="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:hint="Hielo bolsa grande"
+            android:textColor="@color/cardview_dark_background"
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/txtCantidadItem"
@@ -28,7 +29,7 @@
             android:layout_toEndOf="@+id/txtProductoItem"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
-
+            android:textColor="@color/cardview_dark_background"
             />
 
         <TextView
@@ -38,6 +39,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="40dp"
             android:hint="1"
+            android:textColor="@color/cardview_dark_background"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

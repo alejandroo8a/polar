@@ -6,44 +6,62 @@ package arenzo.alejandroochoa.osopolar.ClasesBase;
 
 public class producto {
 
-    private Integer idProducto;
-    private String nombre;
-    private Boolean activo;
-    private String unidadMedida;
+    private Integer IdProducto;
+    private String Nombre;
+    private String Activo;
+    private String UnidadMedida;
+    private Double precio;
+    private Float cantidad;
+
+    public Float getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Float cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public Double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(Double precio) {
+        this.precio = precio;
+    }
 
     public producto(){
 
     }
 
     public Integer getIdProducto() {
-        return idProducto;
+        return IdProducto;
     }
 
     public void setIdProducto(Integer idProducto) {
-        this.idProducto = idProducto;
+        this.IdProducto = idProducto;
     }
 
     public String getNombre() {
-        return nombre;
+        return Nombre;
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.Nombre = nombre;
     }
 
-    public Boolean getActivo() {
-        return activo;
+    public String getActivo() {
+        return Activo;
     }
 
-    public void setActivo(Boolean activo) {
-        this.activo = activo;
+    public void setActivo(String activo) {
+        this.Activo = activo;
     }
 
     public String getUnidadMedida() {
-        return unidadMedida;
+        return UnidadMedida;
     }
 
     public void setUnidadMedida(String unidadMedida) {
-        this.unidadMedida = unidadMedida;
+        this.UnidadMedida = unidadMedida;
     }
 }
