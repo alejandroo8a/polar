@@ -71,27 +71,8 @@ public class HistorialActivity extends AppCompatActivity {
         aVentas=bd.obtenerVentasHistorial();
         //oVenta venta = new oVenta();
 
-        Log.d("lista",aVentas.toString());
+        Log.d("lista_ventas",aVentas.toString());
         if(aVentas.size() > 0) {
-            //adapter_busqueda=new adapter_ventas(HistorialActivity.this,R.layout.item_cliente,aVentas);
-            //listhistorial.setAdapter(adapter_busqueda);
-
-           /* for (int i=0;i<aVentas.size();i++){
-
-                names=new ArrayList<>();//lista a mostra
-
-                names.add(aVentas.get(i).getIdCliente().toString());
-
-                //venta.setCredito(0);
-
-
-
-                //Log.d("lista",ventas.toString());
-                adapter_busqueda=new adapter_ventas(HistorialActivity.this,R.layout.item_cliente,names);
-                listhistorial.setAdapter(adapter_busqueda);
-            }*/
-
-
             adapter_busqueda=new adapter_ventas(HistorialActivity.this,R.layout.item_historial,aVentas);
             listhistorial.setAdapter(adapter_busqueda);
 
@@ -183,7 +164,7 @@ public class HistorialActivity extends AppCompatActivity {
 
     private void goToDetalle(int id_venta){
         // ProjectsActivity is my 'home' activity
-        Intent favoritos=new Intent(HistorialActivity.this,DetallesVentasActivity.class);
+        Intent favoritos=new Intent(HistorialActivity.this,ProductoDetalleActivity.class);
         favoritos.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         favoritos.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         favoritos.setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);

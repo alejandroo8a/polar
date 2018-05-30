@@ -454,6 +454,29 @@ public class baseDatos extends SQLiteOpenHelper {
         return aProducto;
     }
 
+
+    public ArrayList<producto> obtenerProductosVenta(int idventa){
+        SQLiteDatabase db = getWritableDatabase();
+        ArrayList<producto> aProducto = new ArrayList<>();
+
+
+        Cursor cursor = db.rawQuery("SELECT " + PRODUCTO + ".* FROM " +VENTADETALLE+" INNER JOIN " +PRODUCTO+ " ON " + VENTADETALLE + ".IdProducto = " + PRODUCTO + ".IdProducto"
+                +" WHERE IdVenta = "+ idventa
+                , null);
+        if (cursor.moveToFirst()){
+            do{
+                producto producto = new producto();
+                producto.setIdProducto(cursor.getInt(0));
+                producto.setNombre(cursor.getString(1));
+                producto.setUnidadMedida(cursor.getString(2));
+                producto.setActivo(cursor.getString(3));
+                aProducto.add(producto);
+            }while (cursor.moveToNext());
+
+        }
+        return aProducto;
+    }
+
     public ArrayList<oVenta> obtenerVentas(){
         SQLiteDatabase db = getWritableDatabase();
         ArrayList<oVenta> aVentas = new ArrayList<>();
@@ -526,10 +549,10 @@ public class baseDatos extends SQLiteOpenHelper {
     }
 
 //
-    public ArrayList<ventaDetalle> obtenerVentaDetallebyId(int id_venta){
+    public ArrayList<ventaDetalle> obtenerVentaDetallebyId(int id_producto){
         SQLiteDatabase db = getWritableDatabase();
         ArrayList<ventaDetalle> aVentaDetalle = new ArrayList<>();
-        Cursor cursor = db.rawQuery("SELECT * FROM "+VENTADETALLE+" WHERE IdVenta = "+ id_venta, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+VENTADETALLE+" WHERE IdProducto = "+ id_producto, null);
         if (cursor.moveToFirst()){
             do{
 

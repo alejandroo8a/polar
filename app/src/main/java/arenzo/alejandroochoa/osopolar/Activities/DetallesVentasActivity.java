@@ -1,8 +1,10 @@
 package arenzo.alejandroochoa.osopolar.Activities;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,7 +30,9 @@ public class DetallesVentasActivity extends AppCompatActivity {
     private baseDatos bd;
     Button cancelar;
     private ArrayList<ventaDetalle> aVentas;
+    int id_producto;
     int id_venta;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +49,7 @@ public class DetallesVentasActivity extends AppCompatActivity {
         textprecio = (TextView) findViewById(R.id.textprecio);
         textsub = (TextView) findViewById(R.id.textsub);
         texttotal = (TextView) findViewById(R.id.texttotal);
-        cancelar=(Button)findViewById(R.id.btnCancelarVenta);
+        cancelar = (Button) findViewById(R.id.btnCancelarVenta);
 
         cancelar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +59,7 @@ public class DetallesVentasActivity extends AppCompatActivity {
         });
 
         bd = new baseDatos(getApplicationContext());
+
 
         ActionBar ab = getSupportActionBar();
         ab.setHomeButtonEnabled(true);
@@ -83,8 +88,8 @@ public class DetallesVentasActivity extends AppCompatActivity {
     }
 
     public void obtenerdetalle() {
-         id_venta = getIntent().getExtras().getInt("id_venta");
-        aVentas=  bd.obtenerVentaDetallebyId(id_venta);
+         id_producto = getIntent().getExtras().getInt("id_producto");
+        aVentas=  bd.obtenerVentaDetallebyId(id_producto);
         DecimalFormat formatea = new DecimalFormat("###,###.##");
         int suma = 0;
 
@@ -111,8 +116,9 @@ public class DetallesVentasActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //finalizarVenta(false);
-
+                        id_venta = getIntent().getExtras().getInt("id_venta");
                         bd.borrarventa(id_venta);
+
                         toHistorial();
                         Toast.makeText(DetallesVentasActivity.this,"Venta Eliminada",Toast.LENGTH_SHORT).show();
                     }
@@ -160,6 +166,11 @@ public class DetallesVentasActivity extends AppCompatActivity {
         startActivity(favoritos);
         finish();
     }
+
+
+
+
+
 
 }
 
