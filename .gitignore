@@ -7,3 +7,9 @@
 /build
 /captures
 .externalNativeBuild
+osito.jks
+app/release/release/output.json
+app/release/release/app-release.apk
+app/release/app-release.apk
+.idea/codeStyles/Project.xml
+.idea/caches/build_file_checksums.ser
