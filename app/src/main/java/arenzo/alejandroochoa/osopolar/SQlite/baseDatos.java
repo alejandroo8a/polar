@@ -454,6 +454,25 @@ public class baseDatos extends SQLiteOpenHelper {
         return aProducto;
     }
 
+
+    public ArrayList<producto> obtenerProductosVenta(int idListaPrecio){
+        SQLiteDatabase db = getWritableDatabase();
+        ArrayList<producto> aProducto = new ArrayList<>();
+        Cursor cursor = db.rawQuery("SELECT * FROM "+PRODUCTO, null);
+        if (cursor.moveToFirst()){
+            do{
+                producto producto = new producto();
+                producto.setIdProducto(cursor.getInt(0));
+                producto.setNombre(cursor.getString(1));
+                producto.setUnidadMedida(cursor.getString(2));
+                producto.setActivo(cursor.getString(3));
+                aProducto.add(producto);
+            }while (cursor.moveToNext());
+            
+        }
+        return aProducto;
+    }
+
     public ArrayList<oVenta> obtenerVentas(){
         SQLiteDatabase db = getWritableDatabase();
         ArrayList<oVenta> aVentas = new ArrayList<>();
