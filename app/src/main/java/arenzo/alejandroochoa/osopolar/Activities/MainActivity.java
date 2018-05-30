@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         saberSiExisteserver();
         obtenerCantidadVentas();
 
-        fbtnSincronizar.setVisibility(View.VISIBLE);
+
     }
 
 
