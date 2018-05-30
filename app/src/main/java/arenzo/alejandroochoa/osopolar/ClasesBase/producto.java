@@ -11,13 +11,13 @@ public class producto {
     private String Activo;
     private String UnidadMedida;
     private Double precio;
-    private Integer cantidad;
+    private Float cantidad;
 
-    public Integer getCantidad() {
+    public Float getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(Integer cantidad) {
+    public void setCantidad(Float cantidad) {
         this.cantidad = cantidad;
     }
 

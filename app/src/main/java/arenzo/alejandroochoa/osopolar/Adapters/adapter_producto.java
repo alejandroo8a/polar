@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import arenzo.alejandroochoa.osopolar.ClasesBase.producto;
@@ -44,7 +45,10 @@ public class adapter_producto extends ArrayAdapter<producto> {
         // Setup.
         holder.txtProductoItem.setText(producto.getNombre());
         holder.txtCantidadItem.setText(String.valueOf(producto.getCantidad()));
-        holder.txtSubtotalItem.setText(String.valueOf(producto.getPrecio()));
+
+        DecimalFormat formatea = new DecimalFormat("###,###.##");
+        String sumando=formatea.format(producto.getPrecio());
+        holder.txtSubtotalItem.setText("$"+sumando);
 
         return convertView;
         }

@@ -13,6 +13,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,8 +31,10 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import arenzo.alejandroochoa.osopolar.Activities.venta;
+import arenzo.alejandroochoa.osopolar.Adapters.adapter_busqueda;
 import arenzo.alejandroochoa.osopolar.Adapters.adapter_clientes;
 import arenzo.alejandroochoa.osopolar.ClasesBase.cliente;
 import arenzo.alejandroochoa.osopolar.R;
@@ -45,7 +48,7 @@ public class busqueda extends DialogFragment implements GoogleApiClient.Connecti
 
     private final static String TAG = "busqueda";
     private final String RESULTADO = "RESULTADO";
-
+    List<String> names;
     private ListView lvClientesCercas;
     private TextView txtSinClientes;
     ActionBar actionBar;
@@ -53,8 +56,9 @@ public class busqueda extends DialogFragment implements GoogleApiClient.Connecti
     private GoogleApiClient mgoogleApiClient;
     private Location mLastLocation;
     private baseDatos bd;
-    private adapter_clientes adapter;
-    private ArrayList<cliente> aClientes;
+    private adapter_clientes adapter,adaptador;
+    private adapter_busqueda adapter_busqueda;
+    private ArrayList<cliente> aClientes,aBusqueda;
 
     public busqueda() {
         // Required empty public constructor
@@ -178,15 +182,33 @@ public class busqueda extends DialogFragment implements GoogleApiClient.Connecti
     }
 
     private void setearClientes(){
-        aClientes = bd.obtenerClientesCercanos(mLastLocation);
-        if(aClientes.size() > 0) {
-            adapter = new adapter_clientes(getContext(), R.layout.item_cliente, aClientes);
-            lvClientesCercas.setAdapter(adapter);
+        aBusqueda = bd.obtenerClientesCercanos(mLastLocation);
+        //Log.d("loca", String.valueOf(mLastLocation.getLatitude()));
+        if(aBusqueda.size() > 0) {
+            names=new ArrayList<>();//lista a mostra
+            for (int i=0;i<aBusqueda.size();i++){
+                //Toast.makeText(getContext(),aBusqueda.get(i).getNombre(), Toast.LENGTH_LONG).show();
+
+                //Toast.makeText(getContext(), "Se encontro", Toast.LENGTH_LONG).show();
+
+
+                names.add(aBusqueda.get(i).getNombre());
+                // Log.d("local_cliet",aBusqueda.get(i).getNombre());
+
+                //Log.d("clientes", String.valueOf(names));
+                txtSinClientes.setVisibility(View.INVISIBLE);
+                lvClientesCercas.setVisibility(View.VISIBLE);
+                // ArrayAdapter<String>adapter=new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,names);
+                adapter_busqueda=new adapter_busqueda(getContext(),R.layout.item_cliente,names);
+                lvClientesCercas.setAdapter(adapter_busqueda);
+                set_cliente_venta();
+                // adapter_busqueda.refreshEvents(names);
+            }
         }else{
             txtSinClientes.setVisibility(View.VISIBLE);
             lvClientesCercas.setVisibility(View.GONE);
         }
-    }
+    }//cambio metodo
 
     private void buscarCliente(){
         LayoutInflater inflater = (LayoutInflater)getContext().getSystemService
@@ -199,12 +221,35 @@ public class busqueda extends DialogFragment implements GoogleApiClient.Connecti
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if(edtNombreCliente.getText().length() > 0){
-                            aClientes.clear();
-                            aClientes = bd.obtenerClientesPorNombre(edtNombreCliente.getText().toString());
-                            if(aClientes.size() > 0)
-                                adapter.refreshEvents(aClientes);
-                            else
+
+                            aBusqueda = bd.obtenerClientesPorNombre(edtNombreCliente.getText().toString());
+                            if(aBusqueda.size() > 0){
+                                names=new ArrayList<>();//lista a mostra
+                                for (int i=0;i<aBusqueda.size();i++){
+                                    //Toast.makeText(getContext(),aBusqueda.get(i).getNombre(), Toast.LENGTH_LONG).show();
+
+                                    //Toast.makeText(getContext(), "Se encontro", Toast.LENGTH_LONG).show();
+
+
+
+
+                                    names.add(aBusqueda.get(i).getNombre());
+
+                                    Log.d("adaptador", String.valueOf(aBusqueda));
+                                    txtSinClientes.setVisibility(View.INVISIBLE);
+                                    lvClientesCercas.setVisibility(View.VISIBLE);
+                                    // ArrayAdapter<String>adapter=new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,names);
+                                    adapter_busqueda=new adapter_busqueda(getContext(),R.layout.item_cliente,names);
+                                    lvClientesCercas.setAdapter(adapter_busqueda);
+                                    set_cliente_venta();
+                                }
+
+                            }
+
+                            else{
                                 Toast.makeText(getContext(), "Busqueda sin resultados", Toast.LENGTH_LONG).show();
+                            }
+
                         }
                     }
                 })
@@ -215,13 +260,27 @@ public class busqueda extends DialogFragment implements GoogleApiClient.Connecti
                     }
                 })
                 .setCancelable(false)
-        .show();
-    }
+                .show();
+    }//cambio metodo
+
+    public void set_cliente_venta(){
+        lvClientesCercas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                cliente cliente=bd.obtenerClientebyname(names.get(position));
+                //Toast.makeText(getContext(),names.get(position),Toast.LENGTH_SHORT).show();
+
+                mostrarVenta(cliente);
+
+
+            }
+        });
+    }//cambio metodo
 
     private void mostrarVenta(final cliente cliente){
         Intent intent = new Intent(getContext(), venta.class);
         intent.putExtra(RESULTADO, cliente);
         startActivity(intent);
-        this.dismiss();
+        this.onDestroy();
     }
 }

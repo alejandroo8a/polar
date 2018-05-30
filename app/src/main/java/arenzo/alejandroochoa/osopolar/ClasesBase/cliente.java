@@ -17,6 +17,15 @@ public class cliente implements Serializable {
     private String latitud;
     private String longitud;
     private Integer idListaPrecios;
+    private Integer credito;
+
+    public Integer getCredito() {
+        return credito;
+    }
+
+    public void setCredito(Integer credito) {
+        this.credito = credito;
+    }
 
     public cliente() {
     }

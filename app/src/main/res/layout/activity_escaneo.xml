@@ -54,7 +54,7 @@
         style="@android:style/Widget.Material.Button.Borderless"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:background="@color/verde"
+        android:background="@color/botones"
         android:text="SELECCIONE EL MÉTODO DE VENTA"
         android:textColor="@color/icons"
         android:textSize="20sp"

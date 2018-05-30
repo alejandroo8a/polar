@@ -39,8 +39,9 @@
     <string name="montoVenta">Monto de venta </string>
     <string name="montoVentaSinMonto">Monto de venta: Sin monto.</string>
     <string name="pesos"> pesos</string>
-    <string name="precio"> Precio</string>
+    <string name="precio"> Precio Lista</string>
     <string name="confirmar"> Confirmar</string>
     <string name="hielo_bolsa_grande">Hielo bolsa grande</string>
     <string name="nombre_cliente">Ingresa el nombre del cliente</string>
+    <string name="red">Ingrese el nombre de la red</string>
 </resources>

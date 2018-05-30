@@ -5,11 +5,16 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import arenzo.alejandroochoa.osopolar.ClasesBase.MyRetryPolicyWithoutRetry;
 import arenzo.alejandroochoa.osopolar.ClasesBase.cliente;
 import arenzo.alejandroochoa.osopolar.ClasesBase.listaPrecio;
 import arenzo.alejandroochoa.osopolar.ClasesBase.oVenta;
@@ -39,19 +45,22 @@ public class webServices {
     private SingletonVolley requestQueue;
     private baseDatos bd;
 
-    private final String URLBASEDEVELOP = "http://xtremesoftware.com.mx/portafolio/oso/public/api/";
+    private  String URLBASEDEVELOP ;
     private final String URLENVIARVENTAS = "EnviarVentas";
     private final String URLOBTENERPRODUCTO = "ObtenerProductos";
     private final String URLOBTENERLISTAPRECIOS = "ObtenerListasPrecios";
     private final String URLPRODUCTOSLISTAS = "ObtenerProductosLista";
     private final String URLOBTENERCLIENTES = "ObtenerClientes";
 
-    public webServices(Context context) {
+    public webServices(Context context,String url) {
         this.context=context;
         bd = new baseDatos(context);
         //sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         requestQueue= SingletonVolley.getInstance(context);
         requestQueue.getRequestQueue();
+        this.URLBASEDEVELOP=url;
+
+        new DefaultRetryPolicy(0, -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
     }
 
     public void obtenerProductos(final String idEquipo, final Dialog dialog){
@@ -82,6 +91,7 @@ public class webServices {
                 return params;
             }
         }*/;
+        request.setRetryPolicy(new DefaultRetryPolicy( 50000, 5, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.addToRequestQueue(request);
     }
 
@@ -94,6 +104,7 @@ public class webServices {
                         try {
                             JSONObject joListaPrecio = new JSONObject(response);
                             ArrayList<listaPrecio> aListaPrecio = new parsearWebService().parsearListaPrecio(joListaPrecio);
+
                             bd.insertarListaPrecio(aListaPrecio, context);
                             obtenerProductosListas(idEquipo, dialog);
                         } catch (JSONException e) {
@@ -115,6 +126,10 @@ public class webServices {
               return params;
           }
         }*/;
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.addToRequestQueue(request);
     }
 
@@ -126,6 +141,7 @@ public class webServices {
                     public void onResponse(String response) {
                         try {
                             JSONObject joProductoLista = new JSONObject(response);
+                            //Log.d("Response Lista Productos",response);
                             ArrayList<productoLista> aProductoLista = new parsearWebService().parsearProductoLista(joProductoLista);
                             bd.insertarProductoListas(aProductoLista, context);
                             obtenerClientes(idEquipo, dialog);
@@ -148,6 +164,7 @@ public class webServices {
                 return params;
             }
         }*/;
+        request.setRetryPolicy(new DefaultRetryPolicy( 50000, 5, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.addToRequestQueue(request);
     }
 
@@ -162,7 +179,7 @@ public class webServices {
                             ArrayList<cliente> aClientes = new parsearWebService().parsearClientes(joClientes);
                             bd.insertarCliente(aClientes, context);
                             dialog.dismiss();
-                            Toast.makeText(context, "Sincronización finalizada con éxito", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Sincronización finalizada con éxito ", Toast.LENGTH_SHORT).show();
                         } catch (JSONException e) {
                             dialog.dismiss();
                             e.printStackTrace();
@@ -185,25 +202,32 @@ public class webServices {
     }
 
     public boolean enviarVentas(final List<oVenta> aVentas, final List<ventaDetalle> aVentaDetalle, final String idEquipo, final Dialog anillo){
-        JSONArray jaVentas = parsearWebService.parsearVentas(aVentas, aVentaDetalle);
 
+        JSONArray jaVentas = parsearWebService.parsearVentas(aVentas, aVentaDetalle);
         Log.d("ventas volley",String.valueOf(jaVentas));
+
+
+
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST,
                 URLBASEDEVELOP + URLENVIARVENTAS,
                 jaVentas,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                            obtenerProductos(idEquipo, anillo);
+                        // obtenerProductos(idEquipo, anillo);
                         Toast.makeText(context, "success ", Toast.LENGTH_LONG).show();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 anillo.dismiss();
-                Toast.makeText(context, "Error en la aqui: "+error, Toast.LENGTH_LONG).show();
+                // Log.e("ErrorResponse", String.valueOf(error));
+                // Toast.makeText(context, "Error en la aqui: "+error, Toast.LENGTH_LONG).show();
             }
         });
+
+
+
         requestQueue.addToRequestQueue(request);
 
         return true;
