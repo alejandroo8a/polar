@@ -42,7 +42,7 @@
 
 
     <ListView
-        android:id="@+id/listhistorial"
+        android:id="@+id/listproducto"
         android:layout_width="413dp"
         android:layout_height="330dp"
         android:dividerHeight="2dp"
