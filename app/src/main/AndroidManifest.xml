@@ -52,7 +52,8 @@
                 android:value=".Activities.MainActivity" />
             >
         </activity>
-        <activity android:name=".Activities.DetallesVentasActivity"></activity>
+        <activity android:name=".Activities.DetallesVentasActivity" />
+        <activity android:name=".Activities.ProductoDetalleActivity"></activity>
     </application>
 
 </manifest>
