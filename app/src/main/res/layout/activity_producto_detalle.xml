@@ -14,7 +14,7 @@
         android:layout_width="0dp"
         android:layout_height="30dp"
         android:background="@color/botones"
-        android:text="Productos de la Venta"
+        android:text="Productos Vendidos"
         android:textColor="@color/icons"
         android:textSize="20sp"
         app:layout_constraintHorizontal_bias="0.501"
