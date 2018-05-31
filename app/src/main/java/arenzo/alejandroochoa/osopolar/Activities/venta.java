@@ -320,7 +320,7 @@ public class venta extends AppCompatActivity implements GoogleApiClient.Connecti
         if(cliente.getIdListaPrecios() != null)
             aProductoVender = bd.obtenerProductos(cliente.getIdListaPrecios());
         else
-            aProductoVender = bd.obtenerProductos(1);
+            aProductoVender = bd.obtenerProductos(5);
         ArrayList<String> aNombreProducto = new ArrayList<>();
         for(producto producto : aProductoVender){
 
