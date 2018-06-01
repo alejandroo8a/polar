@@ -275,6 +275,15 @@ public class baseDatos extends SQLiteOpenHelper {
         return idVenta;
     }
 
+    public int obtenerUltimoIdPrecio(){
+        SQLiteDatabase db = getWritableDatabase();
+        int IdListaPrecio = 0;
+        Cursor cursor = db.rawQuery("SELECT  MAX(IdListaPrecio) FROM "+LISTAPRECIO,null);
+        if (cursor.moveToFirst())
+            IdListaPrecio = cursor.getInt(0);
+        return IdListaPrecio;
+    }
+
 
     public int obtenerCantidadVentasHoy(){
         SQLiteDatabase db = getWritableDatabase();
